@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divyanshu Singh — Strategic UX & Product Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Premium editorial & technical typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@500;600;700;800;900&family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBg: '#F9F7F3',         // Warm Oatmeal paper background
+                        brandSecondary: '#FFFFFF',  // Pure white card surfaces
+                        brandSurface: '#F3F0EA',    // Textured grey/ivory backing
+                        brandBorder: 'rgba(30, 32, 34, 0.08)', // Fine charcoal drafting border
+                        brandText: '#1E2022',       // Charcoal Drafting Ink
+                        brandMuted: '#5C5F62',      // Slate Body Gray
+                        brandAccent: '#E06A3B',     // Terracotta Accent Color
+                        brandAccentSec: '#10B981',  // Emerald Green Status Accent
+                    },
+                    fontFamily: {
+                        headline: ['"Inter Tight"', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        cursive: ['Caveat', 'cursive'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F9F7F3;
+            color: #1E2022;
+            overflow-x: hidden;
+        }
+
+        /* Continuous drafting background pattern */
+        .blueprint-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(30, 32, 34, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 32, 34, 0.015) 1px, transparent 1px);
+        }
+
+        /* Minimal scrollbar design */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F7F3;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(30, 32, 34, 0.08);
+            border-radius: 4px;
+            border: 2px solid #F9F7F3;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E06A3B;
+        }
+
+        .portfolio-view {
+            display: none;
+            opacity: 0;
+        }
+        .portfolio-view.view-active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Interactive Split Slider Style overrides */
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+        .before-after-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #E06A3B;
+            cursor: ew-resize;
+            z-index: 30;
+        }
+    </style>
+</head>
+<body class="antialiased font-body relative blueprint-grid pb-20">
+
+    <!-- Cursor Glow Track Backlighting -->
+    <div id="cursor-glow" class="pointer-events-none fixed inset-0 z-30 opacity-0 transition-opacity duration-300 hidden md:block" style="background: radial-gradient(400px circle at 0px 0px, rgba(224, 106, 59, 0.025), transparent 80%);"></div>
+
+    <!-- Active Action Toast notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-brandText text-brandSecondary text-xs font-mono py-3 px-5 rounded-xl shadow-xl transform translate-y-12 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center space-x-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-brandAccentSec animate-pulse"></span>
+        <span id="toast-text">Parameters synchronized successfully</span>
+    </div>
+
+    <!-- GLOBAL NAVIGATION HEADER -->
+    <header class="fixed top-0 left-0 w-full z-40 bg-[#F9F7F3]/90 backdrop-blur-md border-b border-brandBorder px-6 lg:px-16 py-4 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center space-x-2 cursor-pointer animate-fade-in" onclick="showPage('home')">
+            <div class="relative w-8 h-8 flex items-center justify-center rounded-full bg-brandAccent/10 overflow-hidden">
+                <span class="font-headline font-black text-lg tracking-tight text-brandText z-10">D</span>
+                <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-brandAccent/30"></div>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-headline font-bold text-sm tracking-tight text-brandText leading-none">Divyanshu Singh</span>
+                <span class="text-[9px] text-brandMuted tracking-wider font-mono mt-1">STRATEGIC UX &amp; ARCHITECTURES</span>
+            </div>
+        </div>
+        
+        <nav class="hidden md:flex items-center space-x-6 text-[11px] font-semibold tracking-wider uppercase text-brandMuted font-mono">
+            <button onclick="showPage('home')" id="nav-home" class="hover:text-brandText transition-all relative py-1 text-brandText border-b-2 border-brandAccent">Home</button>
+            <button onclick="showPage('work-archive')" id="nav-work-archive" class="hover:text-brandText transition-all relative py-1">Work Archive</button>
+            <button onclick="showPage('experience')" id="nav-experience" class="hover:text-brandText transition-all relative py-1">Experience</button>
+            <button onclick="showPage('process')" id="nav-process" class="hover:text-brandText transition-all relative py-1">Process</button>
+            <button onclick="showPage('about')" id="nav-about" class="hover:text-brandText transition-all relative py-1">About</button>
+        </nav>
+        
+        <div>
+            <button onclick="showPage('contact')" class="px-5 py-2.5 rounded-full bg-brandText text-brandSecondary text-xs font-semibold tracking-wider hover:bg-brandAccent hover:text-brandSecondary transition-all duration-300 inline-flex items-center space-x-2 font-mono">
+                <span>Let's Connect</span>
+                <span>→</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 1: HOME PAGE (CORE HERO & SKILLS)     -->
+    <!-- ============================================ -->
+    <section id="view-home" class="portfolio-view view-active min-h-screen">
+        <div class="pt-28 pb-16 px-6 lg:px-16 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative overflow-hidden">
+            <!-- Left Narrative Column -->
+            <div class="lg:col-span-7 z-10 flex flex-col justify-center space-y-6">
+                <div class="inline-flex items-center space-x-2 text-xs font-mono font-bold tracking-widest text-brandAccent uppercase">
+                    <span class="w-2 h-2 rounded-full bg-brandAccent"></span>
+                    <span>STRATEGIC UX &amp; PRODUCT DESIGNER</span>
+                </div>
+                
+                <h1 class="font-headline font-extrabold text-4xl sm:text-6xl lg:text-[72px] leading-[1.05] tracking-tight text-brandText">
+                    Designing <span class="font-cursive text-brandAccent font-normal lowercase italic text-5xl sm:text-7xl lg:text-[84px] inline-block transform -rotate-2 px-1">meaningful</span> systems that create impact.
+                </h1>
+                
+                <p class="text-base sm:text-lg text-brandMuted max-w-xl font-normal leading-relaxed">
+                    I translate complex operational logic, telemetry parameters, and field data streams into simple, high-fidelity responsive systems and digital product systems.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4 text-xs font-mono text-brandMuted pt-2">
+                    <div class="flex items-center space-x-1.5">
+                        <span class="text-brandAccent">📍</span>
+                        <span>Noida, Uttar Pradesh, India</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-2 h-2 rounded-full bg-brandAccentSec animate-pulse"></span>
+                        <span>Available for new system opportunities</span>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap items-center gap-6 pt-4">
+                    <button onclick="showPage('work-archive')" class="px-6 py-3.5 rounded-full bg-brandText text-brandSecondary text-sm font-semibold tracking-wide hover:bg-brandAccent hover:scale-[1.02] transition-all duration-200 inline-flex items-center space-x-2 shadow-sm font-mono">
+                        <span>Browse Work Archive</span>
+                        <span>→</span>
+                    </button>
+                    <button onclick="showPage('experience')" class="text-brandText text-sm font-semibold tracking-wide hover:text-brandAccent transition-colors inline-flex items-center space-x-1.5 border-b border-brandText hover:border-brandAccent pb-0.5 font-mono">
+                        <span>Read Timeline Story</span>
+                        <span>→</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Personal Sketchbook Frame -->
+            <div class="lg:col-span-5 z-10 relative h-[450px] w-full flex items-center justify-center mt-10 lg:mt-0">
+                <div class="relative w-full max-w-[420px] h-full flex items-center justify-center">
+                    
+                    <div class="absolute w-[260px] sm:w-[320px] h-[260px] sm:h-[320px] rounded-full bg-brandAccent/10 border border-brandAccent/20 flex items-center justify-center z-0">
+                        <div class="w-[80%] h-[80%] rounded-full border border-dashed border-brandAccent/30"></div>
+                    </div>
+
+                    <div class="absolute top-4 left-4 w-6 h-6 border-t border-l border-brandText/15"></div>
+                    <div class="absolute bottom-4 right-4 w-6 h-6 border-b border-r border-brandText/15"></div>
+
+                    <div class="relative z-10 w-full h-[380px] flex items-center justify-center">
+                        <img src="IMG_1273-removebg-preview.png" alt="Divyanshu Singh" class="h-full w-auto object-contain select-none filter drop-shadow-[0_16px_32px_rgba(30,32,34,0.12)]" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400';">
+
+                        <div class="absolute -top-4 -left-6 rotate-[-6deg] max-w-[150px] pointer-events-none select-none z-20">
+                            <span class="font-cursive text-brandAccent text-2xl tracking-normal block leading-tight">Keep it simple but significant.</span>
+                            <canvas id="sketch-arrow" class="w-16 h-10 ml-8 mt-1 transform rotate-[10deg]"></canvas>
+                        </div>
+
+                        <div class="absolute top-[35%] -right-4 bg-brandSecondary border border-brandBorder shadow-lg p-4 rounded-xl max-w-[140px] z-20 rotate-[3deg] transition-transform duration-300 hover:rotate-0">
+                            <span class="font-headline font-black text-3xl text-brandAccent block leading-none">5+</span>
+                            <span class="text-[10px] font-semibold text-brandText uppercase tracking-wider block mt-1.5 leading-tight">Years of design experience</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURED PORTFOLIO HIGHLIGHTS -->
+        <div class="py-20 px-6 lg:px-16 max-w-[1440px] mx-auto border-t border-brandBorder">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
+                <div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-brandAccent font-bold">● SELECTED WORK SAMPLES</span>
+                    <h2 class="font-headline font-extrabold text-3xl sm:text-4xl mt-1 text-brandText">Recent Solutions</h2>
+                </div>
+                <button onclick="showPage('work-archive')" class="text-xs font-mono text-brandAccent hover:underline uppercase tracking-wider flex items-center space-x-1">
+                    <span>Browse All Blueprints</span>
+                    <span>→</span>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- KlimaShift Featured Card -->
+                <div class="bg-brandSecondary border border-brandBorder p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-brandAccent/30 transition-all cursor-pointer group" onclick="openCaseStudy('klimashift')">
+                    <div class="aspect-[16/10] bg-brandSurface border border-brandBorder rounded-xl mb-4 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-brandAccent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="font-mono text-[9px] text-brandAccent tracking-widest uppercase font-bold mb-1">[ ENERGY DECARBONIZATION ]</span>
+                        <h4 class="font-headline font-extrabold text-brandText text-lg">KlimaShift Dashboard</h4>
+                        <span class="text-xs text-brandMuted font-mono mt-2">Backed by Schneider &amp; Shell</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-brandAccent font-bold">01 // ENERGY DESIGN SYSTEM</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1">KlimaShift — Energy AI</h3>
+                    <p class="text-xs text-brandMuted mt-1 leading-relaxed">Designed dashboard systems enabling commercial operators to manage complex carbon reduction workflows.</p>
+                </div>
+                <!-- Autoremov Featured Card -->
+                <div class="bg-brandSecondary border border-brandBorder p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-brandAccent/30 transition-all cursor-pointer group" onclick="openCaseStudy('autoremov')">
+                    <div class="aspect-[16/10] bg-brandSurface border border-brandBorder rounded-xl mb-4 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-brandAccent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="font-mono text-[9px] text-brandAccent tracking-widest uppercase font-bold mb-1">[ AI SAAS SAAS ENGINE ]</span>
+                        <h4 class="font-headline font-extrabold text-brandText text-lg">Autoremov Platform</h4>
+                        <span class="text-xs text-brandMuted font-mono mt-2">Redesigned Batch Workspace</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-brandAccent font-bold">02 // CREATOR SAAS</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1">Autoremov — Background Removal</h3>
+                    <p class="text-xs text-brandMuted mt-1 leading-relaxed">Transformed basic templates into a high-density, automated workspace featuring competitive benchmark workflows.</p>
+                </div>
+                <!-- Trivira Featured Card -->
+                <div class="bg-brandSecondary border border-brandBorder p-5 rounded-2xl shadow-sm hover:shadow-md hover:border-brandAccent/30 transition-all cursor-pointer group" onclick="openCaseStudy('trivira')">
+                    <div class="aspect-[16/10] bg-brandSurface border border-brandBorder rounded-xl mb-4 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-brandAccent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="font-mono text-[9px] text-brandAccent tracking-widest uppercase font-bold mb-1">[ BRAND IDENTITY SYSTEM ]</span>
+                        <h4 class="font-headline font-extrabold text-brandText text-lg">Trivira Commerce</h4>
+                        <span class="text-xs text-brandMuted font-mono mt-2">End-to-End Visual Language</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-brandAccent font-bold">03 // BRANDING &amp; PACKAGING</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1">Trivira Global Enterprise</h3>
+                    <p class="text-xs text-brandMuted mt-1 leading-relaxed">Designed unified packaging schemas, digital catalogs, and conversion-optimized checkout funnels.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACADEMIC FOUNDATIONS & CORE STRATEGIES -->
+        <div class="py-20 px-6 lg:px-16 max-w-[1440px] mx-auto border-t border-brandBorder">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left Column: Academic Credentials -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <span class="text-xs font-mono uppercase tracking-widest text-brandAccent font-bold">● ACADEMIC FOUNDATIONS</span>
+                        <h2 class="font-headline font-extrabold text-3xl sm:text-4xl mt-1 text-brandText">Education</h2>
+                        <p class="text-xs text-brandMuted mt-1 leading-relaxed">Empirical academic frameworks in interaction layouts, spatial balance, and visual acoustics.</p>
+                    </div>
+
+                    <div class="space-y-6 relative border-l border-brandBorder pl-6">
+                        <!-- Education item 1 -->
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brandAccent border-4 border-brandBg animate-pulse"></div>
+                            <span class="text-[9px] font-mono text-brandAccent font-bold">[ POSTGRADUATE // 2025 — 2027 ]</span>
+                            <h4 class="font-headline font-bold text-lg text-brandText mt-1">M.Des in UX Design</h4>
+                            <p class="text-xs text-brandMuted mt-1 leading-relaxed">DIT University. Exploring advanced layout architectures, spatial components, and design heuristics tailored for data systems.</p>
+                        </div>
+                        <!-- Education item 2 -->
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brandMuted/30 border-4 border-brandBg"></div>
+                            <span class="text-[9px] font-mono text-brandMuted font-bold">[ INTERNATIONAL SPEC // GÖTTINGEN, GERMANY ]</span>
+                            <h4 class="font-headline font-bold text-lg text-brandText mt-1">M.Sc in UX Design &amp; Management</h4>
+                            <p class="text-xs text-brandMuted mt-1 leading-relaxed">PFH University of Applied Sciences. Completed first academic year (2025 - 2026) in strategic user psychology before fully transitioning back to industry-scale roles with KlimaShift.</p>
+                        </div>
+                        <!-- Education item 3 -->
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brandMuted/30 border-4 border-brandBg"></div>
+                            <span class="text-[9px] font-mono text-brandMuted font-bold">[ UNDERGRADUATE // 2018 — 2022 ]</span>
+                            <h4 class="font-headline font-bold text-lg text-brandText mt-1">B.Des in Industrial Design</h4>
+                            <p class="text-xs text-brandMuted mt-1 leading-relaxed">Uttar Pradesh Institute of Design (UPID). Specialized in physical ergonomics, environmental mapping, and tangible user interaction.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Skills Segment -->
+                <div class="lg:col-span-7 space-y-8">
+                    <div>
+                        <span class="text-xs font-mono uppercase tracking-widest text-brandAccent font-bold">● SYSTEM VECTOR MATRIX</span>
+                        <h2 class="font-headline font-extrabold text-3xl sm:text-4xl mt-1 text-brandText">UX Foundations &amp; AI-Ready Core</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-brandSecondary border border-brandBorder p-5 rounded-2xl shadow-sm hover:shadow transition-all">
+                            <div class="flex justify-between items-start">
+                                <span class="text-2xl">🔍</span>
+                                <span class="text-[9px] font-mono uppercase bg-brandAccentSec/10 text-brandAccentSec px-2.5 py-0.5 rounded-full font-bold">Empirical</span>
+                            </div>
+                            <h4 class="font-headline font-bold text-base text-brandText mt-3">Contextual Heuristic Mapping</h4>
+                            <p class="text-xs text-brandMuted mt-1.5 leading-relaxed">Performing field surveys, technical interviews, and benchmark analysis to align interface parameters with actual operational behaviors.</p>
+                        </div>
+
+                        <div class="bg-brandSecondary border border-brandBorder p-5 rounded-2xl shadow-sm hover:shadow transition-all">
+                            <div class="flex justify-between items-start">
+                                <span class="text-2xl">📐</span>
+                                <span class="text-[9px] font-mono uppercase bg-brandText text-brandSecondary px-2.5 py-0.5 rounded-full font-bold">High Density</span>
+                            </div>
+                            <h4 class="font-headline font-bold text-base text-brandText mt-3">High-Fidelity Wireframes</h4>
+                            <p class="text-xs text-brandMuted mt-1.5 leading-relaxed">Creating priority visual structures for data dashboards, organizing technical details to keep systems clear and easy to navigate.</p>
+                        </div>
+
+                        <div class="bg-brandSecondary border border-brandBorder p-5 rounded-2xl shadow-sm hover:shadow transition-all">
+                            <div class="flex justify-between items-start">
+                                <span class="text-2xl">🧠</span>
+                                <span class="text-[9px] font-mono uppercase bg-brandAccent/10 text-brandAccent px-2.5 py-0.5 rounded-full font-bold">AI Core</span>
+                            </div>
+                            <h4 class="font-headline font-bold text-base text-brandText mt-3">Cognitive Load Mitigation</h4>
+                            <p class="text-xs text-brandMuted mt-1.5 leading-relaxed">Refining busy telemetry systems to prevent alert fatigue, ensuring users can find key information and make quick decisions.</p>
+                        </div>
+
+                        <div class="bg-brandSecondary border border-brandBorder p-5 rounded-2xl shadow-sm hover:shadow transition-all">
+                            <div class="flex justify-between items-start">
+                                <span class="text-2xl">⚡</span>
+                                <span class="text-[9px] font-mono uppercase bg-brandAccent/10 text-brandAccent px-2.5 py-0.5 rounded-full font-bold">Spatial</span>
+                            </div>
+                            <h4 class="font-headline font-bold text-base text-brandText mt-3">Interactive AR Structures</h4>
+                            <p class="text-xs text-brandMuted mt-1.5 leading-relaxed">Designing clear overlay targets and simple hand-held navigation pathways for outdoor industrial calibration tools.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 2: WORK ARCHIVE (FILTER & SEARCH HUB) -->
+    <!-- ============================================ -->
+    <section id="view-work-archive" class="portfolio-view min-h-screen">
+        <div class="pt-28 pb-16 px-6 lg:px-16 max-w-[1440px] mx-auto space-y-12">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-brandAccent font-bold">● PRODUCT ARCHIVE</span>
+                    <h1 class="font-headline font-extrabold text-4xl sm:text-6xl mt-2 text-brandText">Work Portfolio</h1>
+                    <p class="text-brandMuted text-sm max-w-xl mt-2 font-mono">Explore your unified design index spanning climate-tech start-ups, brand systems, and interactive tools.</p>
+                </div>
+            </div>
+
+            <!-- SEARCH AND FILTER SYSTEM -->
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-brandSecondary border border-brandBorder p-4 rounded-2xl shadow-sm">
+                <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                    <button onclick="filterProjects('all')" id="filter-btn-all" class="px-4 py-2 rounded-full border border-brandBorder bg-brandSurface text-brandText text-xs font-mono font-semibold transition-all">All Projects</button>
+                    <button onclick="filterProjects('ai-saas')" id="filter-btn-ai-saas" class="px-4 py-2 rounded-full border border-brandBorder text-brandMuted text-xs font-mono transition-all hover:bg-brandSurface">AI &amp; SaaS</button>
+                    <button onclick="filterProjects('spatial')" id="filter-btn-spatial" class="px-4 py-2 rounded-full border border-brandBorder text-brandMuted text-xs font-mono transition-all hover:bg-brandSurface">Spatial AR</button>
+                    <button onclick="filterProjects('commerce')" id="filter-btn-commerce" class="px-4 py-2 rounded-full border border-brandBorder text-brandMuted text-xs font-mono transition-all hover:bg-brandSurface">Commerce &amp; Brand</button>
+                </div>
+                <div class="w-full md:w-64 relative">
+                    <input type="text" id="project-search" oninput="searchProjects()" placeholder="Search active blueprints..." class="w-full bg-brandBg border border-brandBorder rounded-full px-4 py-2 text-xs font-mono text-brandText focus:outline-none focus:border-brandAccent transition-all">
+                </div>
+            </div>
+
+            <!-- BLUEPRINT GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+                
+                <!-- KlimaShift Card -->
+                <div class="project-card group bg-brandSecondary border border-brandBorder rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-brandAccent/30 transition-all cursor-pointer" data-category="ai-saas" data-title="klimashift energy analysis dashboard" onclick="openCaseStudy('klimashift')">
+                    <div class="aspect-[16/10] bg-brandSurface border border-brandBorder rounded-xl mb-4 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                        <span class="text-[10px] font-mono text-brandAccent font-bold block mb-1">[ AI ENERGY ANALYTICS ]</span>
+                        <h4 class="font-headline font-black text-brandText text-lg">KlimaShift Platform</h4>
+                        <span class="text-[10px] font-mono text-brandMuted mt-2">Full UX Ownership · Gurugram</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-brandMuted">01 // AI INDUSTRIAL TECH</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1 group-hover:text-brandAccent transition-colors">KlimaShift — Carbon Tracker</h3>
+                    <p class="text-xs text-brandMuted mt-1 leading-relaxed">A strategic AI analysis grid helping commercial building teams manage consumption across asset portfolios.</p>
+                    <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-brandBorder">
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Dashboard</span>
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">SaaS</span>
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Energy</span>
+                    </div>
+                </div>
+
+                <!-- Autoremov Card -->
+                <div class="project-card group bg-brandSecondary border border-brandBorder rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-brandAccent/30 transition-all cursor-pointer" data-category="ai-saas" data-title="autoremov background removal platform" onclick="openCaseStudy('autoremov')">
+                    <div class="aspect-[16/10] bg-brandSurface border border-brandBorder rounded-xl mb-4 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                        <span class="text-[10px] font-mono text-brandAccent font-bold block mb-1">[ GENERATIVE AI ]</span>
+                        <h4 class="font-headline font-black text-brandText text-lg">Autoremov SaaS</h4>
+                        <span class="text-[10px] font-mono text-brandMuted mt-2">Redesign &amp; Systems IA</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-brandMuted">02 // CREATOR PLATFORM</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1 group-hover:text-brandAccent transition-colors">Autoremov — Background Tool</h3>
+                    <p class="text-xs text-brandMuted mt-1 leading-relaxed">Competitive design transformation optimizing bulk workspace workflows against industry benchmarks.</p>
+                    <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-brandBorder">
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Bulk Processing</span>
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">AI SaaS</span>
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Benchmarks</span>
+                    </div>
+                </div>
+
+                <!-- AR Onboarding Card -->
+                <div class="project-card group bg-brandSecondary border border-brandBorder rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-brandAccent/30 transition-all cursor-pointer" data-category="spatial" data-title="ar asset onboarding spatial layout" onclick="openCaseStudy('ar_onboarding')">
+                    <div class="aspect-[16/10] bg-brandSurface border border-brandBorder rounded-xl mb-4 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                        <span class="text-[10px] font-mono text-brandAccent font-bold block mb-1">[ MIXED REALITY ]</span>
+                        <h4 class="font-headline font-black text-brandText text-lg">Spatial AR Asset Utility</h4>
+                        <span class="text-[10px] font-mono text-brandMuted mt-2">Field Technician Tools</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-brandMuted">03 // SPATIAL INTERACTION</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1 group-hover:text-brandAccent transition-colors">AR Asset Onboarding Mobile</h3>
+                    <p class="text-xs text-brandMuted mt-1 leading-relaxed">Large-contrast visual paths designed for physical work environments with high-glare limits.</p>
+                    <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-brandBorder">
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Augmented Reality</span>
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Tactile UI</span>
+                    </div>
+                </div>
+
+                <!-- Trivira Card -->
+                <div class="project-card group bg-brandSecondary border border-brandBorder rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-brandAccent/30 transition-all cursor-pointer" data-category="commerce" data-title="trivira global enterprise commerce" onclick="openCaseStudy('trivira')">
+                    <div class="aspect-[16/10] bg-brandSurface border border-brandBorder rounded-xl mb-4 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                        <span class="text-[10px] font-mono text-brandAccent font-bold block mb-1">[ PHYSICAL TO DIGITAL ]</span>
+                        <h4 class="font-headline font-black text-brandText text-lg">Trivira Brand System</h4>
+                        <span class="text-[10px] font-mono text-brandMuted mt-2">Visual Language &amp; Retail Packaging</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-brandMuted">04 // COMMERCE ARCHITECTURE</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1 group-hover:text-brandAccent transition-colors">Trivira Global Identity</h3>
+                    <p class="text-xs text-brandMuted mt-1 leading-relaxed">Created a unified brand experience spanning wellness product packaging, digital catalogs, and clean e-commerce checkouts.</p>
+                    <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-brandBorder">
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Packaging</span>
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Conversion</span>
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Identity</span>
+                    </div>
+                </div>
+
+                <!-- Gamified LMS Card -->
+                <div class="project-card group bg-brandSecondary border border-brandBorder rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-brandAccent/30 transition-all cursor-pointer" data-category="ai-saas" data-title="gamified lms learning management platform" onclick="openCaseStudy('gamified_lms')">
+                    <div class="aspect-[16/10] bg-brandSurface border border-brandBorder rounded-xl mb-4 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                        <span class="text-[10px] font-mono text-brandAccent font-bold block mb-1">[ ENTERPRISE GAMIFICATION ]</span>
+                        <h4 class="font-headline font-black text-brandText text-lg">Learniphi LMS Portal</h4>
+                        <span class="text-[10px] font-mono text-brandMuted mt-2">Staff Upskilling Experience</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-brandMuted">05 // WORKFLOW EXPERIENCE</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1 group-hover:text-brandAccent transition-colors">Gamified LMS Dashboard</h3>
+                    <p class="text-xs text-brandMuted mt-1 leading-relaxed">Integrated progress milestones and friendly team challenges that helped increase employee course completion rates.</p>
+                    <div class="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-brandBorder">
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">Gamification</span>
+                        <span class="text-[9px] font-mono uppercase bg-brandSurface text-brandMuted px-2 py-0.5 rounded">LMS</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Fallback notification -->
+            <div id="no-projects-fallback" class="hidden text-center py-20 text-brandMuted font-mono text-sm">
+                No matching blueprints found. Try adjusting your category filter parameters.
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 3: DETAILED TIMELINE SYSTEM          -->
+    <!-- ============================================ -->
+    <section id="view-experience" class="portfolio-view min-h-screen">
+        <div class="pt-28 pb-16 px-6 lg:px-16 max-w-[1440px] mx-auto space-y-12">
+            <div>
+                <span class="text-xs font-mono uppercase tracking-widest text-brandAccent font-bold">● HISTORICAL SYSTEM LEDGER</span>
+                <h1 class="font-headline font-extrabold text-4xl sm:text-6xl mt-2 text-brandText">Work Experience</h1>
+                <p class="text-brandMuted text-sm max-w-xl mt-2">A documented record of leading UX roles, startup designs, and digital brand systems.</p>
+            </div>
+
+            <div class="relative border-l border-brandBorder ml-2 pl-6 sm:pl-12 space-y-16 max-w-4xl">
+                
+                <!-- KlimaShift Lead -->
+                <div class="relative">
+                    <div class="absolute -left-[31px] sm:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-brandAccent border-4 border-brandBg animate-pulse"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2">
+                        <h3 class="text-xl font-headline font-extrabold text-brandText">Lead User Experience Designer <span class="text-brandMuted font-normal text-base">@ KlimaShift</span></h3>
+                        <span class="text-[10px] font-mono text-brandAccent bg-brandAccent/10 px-2.5 py-0.5 rounded-full font-bold">SEP 2023 — PRESENT</span>
+                    </div>
+                    <span class="text-xs font-mono text-brandMuted uppercase block mt-1">Gurugram, Haryana, India · On-site · 2 yrs 10 mos (backed by Schneider Electric &amp; Shell Petroleum)</span>
+                    <p class="text-brandMuted mt-4 leading-relaxed text-sm">
+                        Leading UX design decisions for an <strong>AI-Powered Energy Analysis Dashboard</strong> designed to help commercial properties monitor energy consumption across portfolio assets.
+                    </p>
+                    <ul class="space-y-2 mt-3 text-xs text-brandMuted list-disc pl-5">
+                        <li>Designed dynamic asset-onboarding workflows, integrating <strong>Augmented Reality (AR)</strong> helper paths to reduce tracking drift in the field.</li>
+                        <li>Configured the <strong>Admin Control Panel</strong>, giving management simple, secure access to telemetry logs and sync operations.</li>
+                        <li>Engineered a client-side <strong>fingertip asset app</strong> for real-time temperature tracking.</li>
+                        <li>Collaborate closely with the CEO, CTO, and engineering teams, translating strategic business targets into clean, functional interface layouts.</li>
+                    </ul>
+                </div>
+
+                <!-- KlimaShift Regular UX Role -->
+                <div class="relative">
+                    <div class="absolute -left-[31px] sm:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-brandMuted/30 border-4 border-brandBg"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2">
+                        <h3 class="text-xl font-headline font-extrabold text-brandText">User Experience Designer <span class="text-brandMuted font-normal text-base">@ KlimaShift</span></h3>
+                        <span class="text-[10px] font-mono text-brandMuted bg-brandSurface px-2.5 py-0.5 rounded-full font-bold">SEP 2023 — JUN 2025</span>
+                    </div>
+                    <span class="text-xs font-mono text-brandMuted uppercase block mt-1">Gurugram, Haryana · Full-time · Overlapping Transition</span>
+                    <p class="text-brandMuted mt-4 leading-relaxed text-sm">
+                        Designed the visual language and interaction paths for a carbon analytics dashboard tailored for small-to-midsize commercial real estate portfolios.
+                    </p>
+                </div>
+
+                <!-- Freelance Workspace -->
+                <div class="relative">
+                    <div class="absolute -left-[31px] sm:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-brandAccent border-4 border-brandBg"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2">
+                        <h3 class="text-xl font-headline font-extrabold text-brandText">Freelance Product Designer &amp; Brand Strategist</h3>
+                        <span class="text-[10px] font-mono text-brandAccent bg-brandAccent/10 px-2.5 py-0.5 rounded-full font-bold">MAY 2020 — PRESENT</span>
+                    </div>
+                    <span class="text-xs font-mono text-brandMuted uppercase block mt-1">Noida, Uttar Pradesh, India · Remote · 6 yrs 2 mos</span>
+                    
+                    <div class="space-y-6 mt-6 border-l-2 border-brandSurface pl-4">
+                        <div>
+                            <span class="text-[10px] font-mono text-brandAccent block font-bold">CLIENT 1 // TRIVIRA GLOBAL ENTERPRISE</span>
+                            <span class="text-xs text-brandText font-semibold block mt-0.5">End-to-End Brand Design &amp; Digital Commerce</span>
+                            <p class="text-xs text-brandMuted mt-1 leading-relaxed">Designed unified brand typography, packaging layouts, web catalog experiences, and conversion paths that helped streamline customer checkout funnels.</p>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandAccent block font-bold">CLIENT 2 // AUTOREMOV (AI BACKGROUND SAAS)</span>
+                            <span class="text-xs text-brandText font-semibold block mt-0.5">Bulk SaaS Platform Redesign &amp; Strategy</span>
+                            <p class="text-xs text-brandMuted mt-1 leading-relaxed">Redesigned bulk image background editing consoles, analyzed usability gaps against industry tools, and improved dashboard layout structures for high-volume creator workflows.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quantmhill -->
+                <div class="relative">
+                    <div class="absolute -left-[31px] sm:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-brandMuted/30 border-4 border-brandBg"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2">
+                        <h3 class="text-xl font-headline font-extrabold text-brandText">UI/UX Consultant <span class="text-brandMuted font-normal text-base">@ Quantmhill</span></h3>
+                        <span class="text-[10px] font-mono text-brandMuted bg-brandSurface px-2.5 py-0.5 rounded-full font-bold">APR 2023 — SEP 2023</span>
+                    </div>
+                    <span class="text-xs font-mono text-brandMuted uppercase block mt-1">IT Services &amp; Consultancy · Remote · 6 mos</span>
+                    <p class="text-brandMuted mt-4 leading-relaxed text-sm">
+                        Consulted on web projects for hospitality, media, and real estate clients—designing responsive sites and custom app flows to improve usability.
+                    </p>
+                </div>
+
+                <!-- Learniphi -->
+                <div class="relative">
+                    <div class="absolute -left-[31px] sm:-left-[55px] top-1.5 w-4 h-4 rounded-full bg-brandMuted/30 border-4 border-brandBg"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2">
+                        <h3 class="text-xl font-headline font-extrabold text-brandText">UI/UX Designer <span class="text-brandMuted font-normal text-base">@ Learniphi Technology</span></h3>
+                        <span class="text-[10px] font-mono text-brandMuted bg-brandSurface px-2.5 py-0.5 rounded-full font-bold">SEP 2022 — MAR 2023</span>
+                    </div>
+                    <span class="text-xs font-mono text-brandMuted uppercase block mt-1">Ahmedabad, Gujarat, India · On-site · 7 mos</span>
+                    <p class="text-brandMuted mt-4 leading-relaxed text-sm">
+                        Designed engaging learning platforms for corporate training programs and created simplified, clean dashboards for Learning Management Systems (LMS).
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 4: PROCESS & METHODOLOGY             -->
+    <!-- ============================================ -->
+    <section id="view-process" class="portfolio-view min-h-screen">
+        <div class="pt-28 pb-16 px-6 lg:px-16 max-w-[1440px] mx-auto space-y-12">
+            <div>
+                <span class="text-xs font-mono uppercase tracking-widest text-brandAccent font-bold">● SYSTEMS METHODOLOGY</span>
+                <h1 class="font-headline font-extrabold text-4xl sm:text-6xl mt-2 text-brandText">Product Thinking Blueprint</h1>
+                <p class="text-brandMuted text-sm max-w-xl mt-2">How complex data streams are simplified into clear, high-fidelity responsive systems.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start pt-6">
+                <!-- Left Tabs Menu -->
+                <div class="lg:col-span-4 space-y-4">
+                    <button onclick="activeProcessStep(1)" id="process-tab-1" class="w-full text-left p-5 rounded-2xl border border-brandAccent/20 bg-brandAccent/5 text-brandText transition-all flex items-center space-x-4">
+                        <span class="w-8 h-8 rounded-full bg-brandAccent text-brandSecondary flex items-center justify-center font-mono text-xs">01</span>
+                        <div>
+                            <span class="block text-[10px] font-mono uppercase text-brandAccent font-bold">Discover &amp; Map</span>
+                            <span class="font-headline font-bold text-sm block">System Stakeholders</span>
+                        </div>
+                    </button>
+                    <button onclick="activeProcessStep(2)" id="process-tab-2" class="w-full text-left p-5 rounded-2xl border border-brandBorder bg-brandSecondary text-brandMuted hover:bg-brandSurface transition-all flex items-center space-x-4">
+                        <span class="w-8 h-8 rounded-full bg-brandSurface text-brandMuted flex items-center justify-center font-mono text-xs">02</span>
+                        <div>
+                            <span class="block text-[10px] font-mono uppercase tracking-wide">Information Schema</span>
+                            <span class="font-headline font-bold text-sm block text-brandText">Logical Hierarchy</span>
+                        </div>
+                    </button>
+                    <button onclick="activeProcessStep(3)" id="process-tab-3" class="w-full text-left p-5 rounded-2xl border border-brandBorder bg-brandSecondary text-brandMuted hover:bg-brandSurface transition-all flex items-center space-x-4">
+                        <span class="w-8 h-8 rounded-full bg-brandSurface text-brandMuted flex items-center justify-center font-mono text-xs">03</span>
+                        <div>
+                            <span class="block text-[10px] font-mono uppercase tracking-wide">Prototype &amp; Test</span>
+                            <span class="font-headline font-bold text-sm block text-brandText">Load Testing Layouts</span>
+                        </div>
+                    </button>
+                    <button onclick="activeProcessStep(4)" id="process-tab-4" class="w-full text-left p-5 rounded-2xl border border-brandBorder bg-brandSecondary text-brandMuted hover:bg-brandSurface transition-all flex items-center space-x-4">
+                        <span class="w-8 h-8 rounded-full bg-brandSurface text-brandMuted flex items-center justify-center font-mono text-xs">04</span>
+                        <div>
+                            <span class="block text-[10px] font-mono uppercase tracking-wide">Validate &amp; Tune</span>
+                            <span class="font-headline font-bold text-sm block text-brandText">Heuristic Optimizations</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Right Detail Panel -->
+                <div class="lg:col-span-8 bg-brandSecondary border border-brandBorder rounded-3xl p-8 shadow-sm min-h-[420px] flex flex-col justify-between" id="process-content-panel">
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center border-b border-brandBorder pb-4">
+                            <span class="text-xs font-mono text-brandAccent uppercase font-bold" id="step-meta">STAGE 01 // DISCOVER AND MAP</span>
+                            <span class="text-[10px] bg-brandAccent/10 text-brandAccent px-2.5 py-1 rounded font-mono uppercase font-bold" id="step-tag">Research Framework</span>
+                        </div>
+                        <h2 class="font-headline font-extrabold text-3xl text-brandText" id="step-title">Deep Stakeholder and Pipeline Investigation</h2>
+                        <p class="text-brandMuted text-sm leading-relaxed" id="step-desc">
+                            We spend the first week researching in the physical environment. Before single wireframes get plotted, we interview HVAC experts, facilities executives, and technical developers. Our core target is discovering what data parameters determine corrective operational actions.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-brandBorder pt-6 mt-8">
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">CORE METRIC TRACK</span>
+                            <span class="text-sm font-semibold text-brandText" id="step-metric">Stakeholder Alignment &amp; Mapping</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">PRIMARY TOOL</span>
+                            <span class="text-sm font-semibold text-brandText" id="step-tool">User Interview Panels, Flowcharts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 5: ABOUT & STORY DOSSIER             -->
+    <!-- ============================================ -->
+    <section id="view-about" class="portfolio-view min-h-screen">
+        <div class="pt-28 pb-16 px-6 lg:px-16 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <div class="lg:col-span-7 space-y-8">
+                <div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-brandAccent font-bold">● ABOUT STORY</span>
+                    <h1 class="font-headline font-extrabold text-4xl sm:text-6xl mt-2 text-brandText">Personal Dossier</h1>
+                </div>
+
+                <div class="space-y-6 text-sm sm:text-base text-brandMuted leading-relaxed">
+                    <p>I am a systems-thinking UX designer specializing in complex digital architectures. I thrive when balancing strict technical data parameters with intuitive user behaviors.</p>
+                    <p>Over the last five years, I've designed AR field applications, AI thermal carbon dashboards, and unified commerce systems that secure operational objectives for companies.</p>
+                </div>
+
+                <div class="space-y-4 border-t border-brandBorder pt-8">
+                    <h3 class="font-headline font-bold text-lg text-brandText mb-4">Core Principles</h3>
+                    
+                    <div class="border border-brandBorder rounded-xl overflow-hidden bg-brandSecondary">
+                        <button onclick="toggleAccordion(1)" class="w-full flex justify-between items-center p-4 text-left font-headline font-bold text-sm text-brandText focus:outline-none">
+                            <span>01 // Focus on functional heuristics</span>
+                            <span id="accordion-arrow-1">▼</span>
+                        </button>
+                        <div id="accordion-body-1" class="hidden p-4 border-t border-brandBorder text-xs text-brandMuted leading-relaxed bg-brandBg/30">
+                            Usability always wins. Aesthetic selections must support operational decision-making first. Colors, typography scales, and shadows are deployed strictly as visual hierarchy aids.
+                        </div>
+                    </div>
+
+                    <div class="border border-brandBorder rounded-xl overflow-hidden bg-brandSecondary">
+                        <button onclick="toggleAccordion(2)" class="w-full flex justify-between items-center p-4 text-left font-headline font-bold text-sm text-brandText focus:outline-none">
+                            <span>02 // Design systems first</span>
+                            <span id="accordion-arrow-2">▼</span>
+                        </button>
+                        <div id="accordion-body-2" class="hidden p-4 border-t border-brandBorder text-xs text-brandMuted leading-relaxed bg-brandBg/30">
+                            I don't design isolated view screens. I build robust libraries of modular variants and spacing specifications, ensuring engineers can quickly build aligned product features.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Systems Toolbox -->
+                <div class="bg-brandSecondary border border-brandBorder rounded-2xl p-6 shadow-sm">
+                    <span class="text-[9px] font-mono uppercase tracking-widest text-brandMuted font-bold">● TECHNICAL TOOLS</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1 mb-4">Toolbox Matrix</h3>
+                    <div class="grid grid-cols-2 gap-3 text-xs font-mono text-brandText">
+                        <div class="p-3 bg-brandBg border border-brandBorder rounded-lg flex items-center space-x-2">
+                            <span>💻</span>
+                            <span>Figma / FigJam</span>
+                        </div>
+                        <div class="p-3 bg-brandBg border border-brandBorder rounded-lg flex items-center space-x-2">
+                            <span>⚡</span>
+                            <span>Claude / Gemini</span>
+                        </div>
+                        <div class="p-3 bg-brandBg border border-brandBorder rounded-lg flex items-center space-x-2">
+                            <span>🎨</span>
+                            <span>Framer / Wix</span>
+                        </div>
+                        <div class="p-3 bg-brandBg border border-brandBorder rounded-lg flex items-center space-x-2">
+                            <span>📈</span>
+                            <span>HTML / CSS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brandSecondary border border-brandBorder rounded-2xl p-6 shadow-sm">
+                    <span class="text-[9px] font-mono uppercase tracking-widest text-brandMuted font-bold">● ACTIVE LITERARY LENS</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1 mb-4">Current Catalog</h3>
+                    <ul class="space-y-3 font-mono text-xs text-brandText">
+                        <li class="flex justify-between border-b border-brandBorder pb-2">
+                            <span>The Design of Everyday Things</span>
+                            <span class="text-brandAccent">Completed</span>
+                        </li>
+                        <li class="flex justify-between border-b border-brandBorder pb-2">
+                            <span>Designing with Data</span>
+                            <span class="text-brandAccent">Active Reading</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SCREEN 6: CONTACT & BOOKING TERMINAL         -->
+    <!-- ============================================ -->
+    <section id="view-contact" class="portfolio-view min-h-screen">
+        <div class="pt-28 pb-16 px-6 lg:px-16 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <div class="lg:col-span-7 bg-brandSecondary border border-brandBorder rounded-3xl p-8 shadow-sm">
+                <span class="text-xs font-mono uppercase tracking-widest text-brandAccent font-bold">● CONTACT BRIDGE</span>
+                <h2 class="font-headline font-extrabold text-3xl sm:text-4xl mt-2 mb-6 text-brandText">Get in Touch</h2>
+                
+                <form id="contact-form" onsubmit="handleFormSubmission(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] font-mono uppercase text-brandMuted mb-2">FULL NAME *</label>
+                            <input type="text" id="form-name" required class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 text-sm text-brandText focus:outline-none focus:border-brandAccent transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono uppercase text-brandMuted mb-2">EMAIL ADDRESS *</label>
+                            <input type="email" id="form-email" required class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 text-sm text-brandText focus:outline-none focus:border-brandAccent transition-colors">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-mono uppercase text-brandMuted mb-2">PROJECT FOCUS</label>
+                        <select id="form-category" class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 text-sm text-brandText focus:outline-none focus:border-brandAccent transition-colors font-mono font-bold">
+                            <option value="saas">SaaS Dashboard System</option>
+                            <option value="ai-integration">AI Workflow Tooling</option>
+                            <option value="ar">Spatial AR Application</option>
+                            <option value="consulting">Design Strategy Consulting</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-mono uppercase text-brandMuted mb-2">MESSAGE BRIEF *</label>
+                        <textarea id="form-message" rows="5" required class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 text-sm text-brandText focus:outline-none focus:border-brandAccent transition-colors"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-brandText text-brandSecondary rounded-xl font-headline font-bold text-sm tracking-wide hover:bg-brandAccent hover:scale-[1.01] transition-all duration-200">
+                        Transmit System Inquiry →
+                    </button>
+                </form>
+
+                <div id="form-success-pane" class="hidden text-center py-12 space-y-6">
+                    <div class="w-16 h-16 bg-brandAccentSec/10 text-brandAccentSec rounded-full flex items-center justify-center text-3xl mx-auto font-bold">✓</div>
+                    <h3 class="font-headline font-extrabold text-2xl text-brandText">Inquiry Transmitted</h3>
+                    <p class="text-sm text-brandMuted max-w-md mx-auto leading-relaxed">I've received your configuration details. Expect a professional design systems response within 24 operational hours.</p>
+                    <button onclick="resetContactForm()" class="px-6 py-2 border border-brandBorder rounded-full text-xs font-mono hover:bg-brandSurface text-brandText">Submit New Ticket</button>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Meeting Slot Scheduler -->
+                <div class="bg-brandSecondary border border-brandBorder rounded-3xl p-6 shadow-sm">
+                    <span class="text-[9px] font-mono uppercase tracking-widest text-[#5C5F62] font-bold">● MEETING SCHEDULER</span>
+                    <h3 class="font-headline font-bold text-lg text-brandText mt-1 mb-4">Select Configuration Slot</h3>
+                    
+                    <div class="grid grid-cols-3 gap-2" id="scheduler-grid">
+                        <button onclick="selectTimeSlot(this)" class="p-3 bg-brandBg border border-brandBorder rounded-xl text-xs font-mono hover:border-brandAccent hover:text-brandAccent transition-all">09:00 AM</button>
+                        <button onclick="selectTimeSlot(this)" class="p-3 bg-brandBg border border-brandBorder rounded-xl text-xs font-mono hover:border-brandAccent hover:text-brandAccent transition-all">11:30 AM</button>
+                        <button onclick="selectTimeSlot(this)" class="p-3 bg-brandBg border border-brandBorder rounded-xl text-xs font-mono hover:border-brandAccent hover:text-brandAccent transition-all">02:00 PM</button>
+                        <button onclick="selectTimeSlot(this)" class="p-3 bg-brandBg border border-brandBorder rounded-xl text-xs font-mono hover:border-brandAccent hover:text-brandAccent transition-all">04:30 PM</button>
+                        <button onclick="selectTimeSlot(this)" class="p-3 bg-brandBg border border-brandBorder rounded-xl text-xs font-mono hover:border-brandAccent hover:text-brandAccent transition-all">06:00 PM</button>
+                        <button onclick="selectTimeSlot(this)" class="p-3 bg-brandBg border border-brandBorder rounded-xl text-xs font-mono hover:border-brandAccent hover:text-brandAccent transition-all">07:30 PM</button>
+                    </div>
+                    
+                    <p class="text-[10px] font-mono text-brandMuted mt-4 leading-normal">
+                        All calls are hosted on Google Meet. Selecting a slot locks your priority reservation parameter.
+                    </p>
+                </div>
+
+                <div class="bg-brandSecondary border border-brandBorder rounded-3xl p-6 shadow-sm font-mono text-xs text-brandText space-y-3">
+                    <div class="flex justify-between border-b border-brandBorder pb-2">
+                        <span class="text-brandMuted">LATITUDE</span>
+                        <span>28.5355° N</span>
+                    </div>
+                    <div class="flex justify-between border-b border-brandBorder pb-2">
+                        <span class="text-brandMuted">LONGITUDE</span>
+                        <span>77.3910° E</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-brandMuted">PULSE STATUS</span>
+                        <span class="text-brandAccentSec animate-pulse font-bold">● ACTIVE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- DYNAMIC CASE STUDY OVERLAY MODAL             -->
+    <!-- ============================================ -->
+    <div id="case-study-overlay" class="fixed inset-0 z-50 bg-[#F9F7F3]/98 backdrop-blur-md overflow-y-auto hidden">
+        <div class="max-w-[1280px] mx-auto min-h-screen px-6 py-12 lg:py-24 relative flex flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-brandBorder pb-6 mb-12">
+                <span class="text-xs font-mono text-brandAccent tracking-widest uppercase font-bold">UX DESIGN ARCHITECTURE SYSTEM LOGS</span>
+                <button onclick="closeCaseStudy()" class="group flex items-center space-x-2 text-xs font-mono text-brandMuted hover:text-brandText transition-colors">
+                    <span>[ CLOSE BLUEPRINT ]</span>
+                    <span class="transform group-hover:rotate-90 transition-transform block font-semibold">✕</span>
+                </button>
+            </div>
+            
+            <!-- Dynamic Content Insertion Zone -->
+            <div id="case-study-content" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start text-brandText"></div>
+            
+            <div class="border-t border-brandBorder pt-12 mt-20 flex justify-between items-center">
+                <span class="text-[10px] font-mono text-brandMuted/50">CASE DATASET RECOVERY TERMINATED VERIFICATION</span>
+                <button onclick="closeCaseStudy()" class="text-xs font-mono text-brandAccent hover:underline">Return to index</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MAIN INTERACTIVE STATE ENGINE & DATABASE     -->
+    <!-- ============================================ -->
+    <script>
+        // Pages Routing definition
+        const PAGES = ['home', 'work-archive', 'experience', 'process', 'about', 'contact'];
+        let currentFilter = 'all';
+
+        // Draw profile hand-drawn arrow decoration natively on Canvas
+        function drawSketches() {
+            const arrowCanvas = document.getElementById('sketch-arrow');
+            if (arrowCanvas) {
+                const ctx = arrowCanvas.getContext('2d');
+                arrowCanvas.width = 120;
+                arrowCanvas.height = 64;
+                ctx.strokeStyle = '#E06A3B';
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(15, 45);
+                ctx.quadraticCurveTo(45, 40, 95, 15);
+                ctx.stroke();
+                
+                // Draw arrowhead
+                ctx.beginPath();
+                ctx.moveTo(95, 15);
+                ctx.lineTo(80, 10);
+                ctx.moveTo(95, 15);
+                ctx.lineTo(87, 30);
+                ctx.stroke();
+            }
+        }
+
+        // Single-Page View Controller
+        function showPage(pageId) {
+            PAGES.forEach(p => {
+                const element = document.getElementById('view-' + p);
+                const navLink = document.getElementById('nav-' + p);
+                
+                if (element) {
+                    element.classList.remove('view-active');
+                }
+                if (navLink) {
+                    navLink.classList.remove('text-brandText', 'border-b-2', 'border-brandAccent');
+                    navLink.classList.add('text-brandMuted');
+                }
+            });
+
+            const activeElement = document.getElementById('view-' + pageId);
+            const activeNav = document.getElementById('nav-' + pageId);
+
+            if (activeElement) {
+                activeElement.classList.add('view-active');
+                gsap.fromTo(activeElement, { opacity: 0, y: 15 }, { duration: 0.3, opacity: 1, y: 0, ease: "power2.out" });
+            }
+
+            if (activeNav) {
+                activeNav.classList.remove('text-brandMuted');
+                activeNav.classList.add('text-brandText', 'border-b-2', 'border-brandAccent');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        // Work Archive Categorization
+        function filterProjects(category) {
+            currentFilter = category;
+            
+            ['all', 'ai-saas', 'spatial', 'commerce'].forEach(c => {
+                const btn = document.getElementById('filter-btn-' + c);
+                if (btn) {
+                    if (c === category) {
+                        btn.classList.add('bg-brandSurface', 'text-brandText', 'font-semibold');
+                        btn.classList.remove('text-brandMuted');
+                    } else {
+                        btn.classList.remove('bg-brandSurface', 'text-brandText', 'font-semibold');
+                        btn.classList.add('text-brandMuted');
+                    }
+                }
+            });
+            executeProjectFiltering();
+        }
+
+        function searchProjects() {
+            executeProjectFiltering();
+        }
+
+        function executeProjectFiltering() {
+            const query = document.getElementById('project-search').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.project-card');
+            let matchCount = 0;
+
+            cards.forEach(card => {
+                const cat = card.getAttribute('data-category');
+                const title = card.getAttribute('data-title').toLowerCase();
+                
+                const matchesCategory = (currentFilter === 'all' || cat === currentFilter);
+                const matchesQuery = (title.includes(query));
+
+                if (matchesCategory && matchesQuery) {
+                    card.classList.remove('hidden');
+                    matchCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            const fallback = document.getElementById('no-projects-fallback');
+            if (fallback) {
+                if (matchCount === 0) {
+                    fallback.classList.remove('hidden');
+                } else {
+                    fallback.classList.add('hidden');
+                }
+            }
+        }
+
+        // Process Interactive Steps Data
+        const PROCESS_STEPS_DB = {
+            1: {
+                meta: "STAGE 01 // DISCOVER AND MAP",
+                tag: "Research Framework",
+                title: "Deep Stakeholder and Pipeline Investigation",
+                desc: "We spend the first week researching in the physical environment. Before single wireframes get plotted, we interview HVAC experts, facilities executives, and technical developers. Our core target is discovering what data parameters determine corrective operational actions.",
+                metric: "Stakeholder Alignment & Mapping",
+                tool: "User Interview Panels, Flowcharts"
+            },
+            2: {
+                meta: "STAGE 02 // INFORMATION SCHEMA",
+                tag: "Logical Architecture",
+                title: "Information Schema and Workflow Prioritization",
+                desc: "We analyze high-density data parameters to construct clean priority structures. Redundant indicators get isolated and deprecated, ensuring that operators are only presented with contextually-actionable, real-time alerts.",
+                metric: "Cognitive Load Decrements",
+                tool: "FigJam Mapping, Visual Priority Taxonomies"
+            },
+            3: {
+                meta: "STAGE 03 // PROTOTYPE & TEST",
+                tag: "UI Engineering",
+                title: "Prototyping & Dynamic Interface Load Testing",
+                desc: "We validate ideas using responsive wireframe dashboards directly filled with live database mock payloads. Testing dashboards under high-stress visual loads ensures we capture user friction early before handing code specs over.",
+                metric: "UI Responsiveness Verification",
+                tool: "Figma Variables, Dynamic Prototyping Systems"
+            },
+            4: {
+                meta: "STAGE 04 // VALIDATE & TUNE",
+                tag: "Heuristics Tuning",
+                title: "Usability Testing and Continuous Optimization Loops",
+                desc: "We gather actual quantitative and qualitative heuristics metrics in the field. Iterating directly on code components ensures all sizing grids, colors, and interactive targets remain fully aligned with professional environments.",
+                metric: "40% Target Operational Reductions",
+                tool: "Heuristics Matrix Logs, Field Auditing Tools"
+            }
+        };
+
+        function activeProcessStep(stepId) {
+            for (let i = 1; i <= 4; i++) {
+                const tab = document.getElementById('process-tab-' + i);
+                if (tab) {
+                    const badge = tab.querySelector('span');
+                    if (i === stepId) {
+                        tab.classList.add('border-brandAccent/20', 'bg-brandAccent/5', 'text-brandText');
+                        tab.classList.remove('border-brandBorder', 'bg-brandSecondary', 'text-brandMuted');
+                        if (badge) {
+                            badge.classList.add('bg-brandAccent', 'text-brandSecondary');
+                            badge.classList.remove('bg-brandSurface', 'text-brandMuted');
+                        }
+                    } else {
+                        tab.classList.remove('border-brandAccent/20', 'bg-brandAccent/5', 'text-brandText');
+                        tab.classList.add('border-brandBorder', 'bg-brandSecondary', 'text-brandMuted');
+                        if (badge) {
+                            badge.classList.remove('bg-brandAccent', 'text-brandSecondary');
+                            badge.classList.add('bg-brandSurface', 'text-brandMuted');
+                        }
+                    }
+                }
+            }
+
+            const stepData = PROCESS_STEPS_DB[stepId];
+            if (stepData) {
+                const panel = document.getElementById('process-content-panel');
+                gsap.to(panel, { duration: 0.15, opacity: 0, y: 10, ease: "power2.in", onComplete: () => {
+                    document.getElementById('step-meta').innerText = stepData.meta;
+                    document.getElementById('step-tag').innerText = stepData.tag;
+                    document.getElementById('step-title').innerText = stepData.title;
+                    document.getElementById('step-desc').innerText = stepData.desc;
+                    document.getElementById('step-metric').innerText = stepData.metric;
+                    document.getElementById('step-tool').innerText = stepData.tool;
+                    
+                    gsap.to(panel, { duration: 0.25, opacity: 1, y: 0, ease: "power2.out" });
+                }});
+            }
+        }
+
+        // About Accordions
+        function toggleAccordion(id) {
+            const body = document.getElementById('accordion-body-' + id);
+            const arrow = document.getElementById('accordion-arrow-' + id);
+            
+            if (body && arrow) {
+                const isHidden = body.classList.contains('hidden');
+                if (isHidden) {
+                    body.classList.remove('hidden');
+                    arrow.innerText = '▲';
+                } else {
+                    body.classList.add('hidden');
+                    arrow.innerText = '▼';
+                }
+            }
+        }
+
+        // Contact Actions
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            const form = document.getElementById('contact-form');
+            const success = document.getElementById('form-success-pane');
+            if (form && success) {
+                form.classList.add('hidden');
+                success.classList.remove('hidden');
+                showToast("System configurations delivered to queue.");
+            }
+        }
+
+        function resetContactForm() {
+            const form = document.getElementById('contact-form');
+            const success = document.getElementById('form-success-pane');
+            if (form && success) {
+                form.reset();
+                success.classList.add('hidden');
+                form.classList.remove('hidden');
+            }
+        }
+
+        function selectTimeSlot(btn) {
+            const grid = document.getElementById('scheduler-grid');
+            if (grid) {
+                grid.querySelectorAll('button').forEach(b => {
+                    b.classList.remove('bg-brandAccent', 'text-brandSecondary', 'border-brandAccent');
+                    b.classList.add('bg-brandBg', 'text-brandText', 'border-brandBorder');
+                });
+                btn.classList.remove('bg-brandBg', 'text-brandText', 'border-brandBorder');
+                btn.classList.add('bg-brandAccent', 'text-brandSecondary', 'border-brandAccent');
+                showToast(`Session slot reserved: ${btn.innerText}`);
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            if (toast && toastText) {
+                toastText.innerText = msg;
+                toast.classList.remove('translate-y-12', 'opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-12', 'opacity-0');
+                }, 3000);
+            }
+        }
+
+        // DEEP INTERACTIVE CASE STUDY DATA (Including interactive sandbox environments)
+        const CASE_STUDY_DB = {
+            klimashift: `
+                <div class="lg:col-span-4 sticky top-12 space-y-8 border-b lg:border-b-0 lg:border-r border-brandBorder pb-8 lg:pb-0 lg:pr-8">
+                    <div>
+                        <span class="text-[10px] font-mono text-brandAccent block uppercase font-bold">CASE PROFILE 01 // DECARBONIZATION GRID</span>
+                        <h1 class="font-headline font-black text-3xl text-brandText mt-1">KlimaShift</h1>
+                        <p class="text-brandMuted text-sm mt-2">AI-Powered Multi-Asset Carbon Tracking &amp; Analysis Platform.</p>
+                    </div>
+                    <div class="space-y-4 pt-4 border-t border-brandBorder">
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">ROLE &amp; POSITION</span>
+                            <span class="text-xs font-semibold text-brandText">Lead UX &amp; Systems Architect (Full Time)</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">TIMELINE</span>
+                            <span class="text-xs font-semibold text-brandText">Sep 2023 — Present (Gurugram, Haryana)</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">BACKED BY</span>
+                            <span class="text-xs font-semibold text-brandText">Schneider Electric &amp; Shell Petroleum</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">KEY METRIC UPLIFT</span>
+                            <span class="text-xs font-bold text-brandAccentSec uppercase font-mono bg-brandAccentSec/10 px-2 py-1 rounded block mt-1 w-fit">40% Decrease in HVAC Asset Drift Errors</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 space-y-12 text-brandMuted leading-relaxed">
+                    <section class="space-y-4">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">02 // THE CHALLENGE</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Operational Complexity Blocking Net-Zero Calibration</h3>
+                        <p class="text-sm">
+                            Commercial operators manage vast buildings with hundreds of HVAC vents, smart meters, and carbon calibration points. Traditional software represents this data as massive disconnected tabular listings, forcing technicians to manually cross-reference metrics, resulting in slow carbon diagnostic responses.
+                        </p>
+                    </section>
+
+                    <!-- KlimaShift Dashboard Sandbox Component -->
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">03 // DESIGN SYSTEM SIMULATION</span>
+                        <h3 class="font-headline font-bold text-xl text-brandText">Interactive AI Telemetry Calibration Sandbox</h3>
+                        <p class="text-sm">
+                            I designed simplified control frameworks with clear feedback, allowing users to tune system settings with confidence. Try adjusting the simulated slider below to observe how the AI processes adjustments:
+                        </p>
+                        
+                        <div class="bg-brandSurface border border-brandBorder rounded-2xl p-6 mt-4">
+                            <div class="flex justify-between items-center mb-4 border-b border-brandBorder/40 pb-2">
+                                <span class="text-xs font-mono font-bold text-brandText uppercase">⚡ HVAC System Thresholds Tuning</span>
+                                <span class="text-[9px] font-mono bg-brandAccentSec/15 text-brandAccentSec px-2 py-0.5 rounded uppercase font-bold" id="calib-status">Status: Balanced</span>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs font-mono mb-1">
+                                        <span class="text-brandMuted">Compressor Load Calibration</span>
+                                        <span class="text-brandText font-bold" id="slider-val">50% Output</span>
+                                    </div>
+                                    <input type="range" id="load-slider" min="10" max="100" value="50" oninput="updateTelemetrySandbox(this.value)" class="w-full accent-brandAccent">
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4 pt-2">
+                                    <div class="bg-brandSecondary p-3 rounded-xl border border-brandBorder">
+                                        <span class="text-[10px] font-mono text-brandMuted block">THERMAL EFFICIENCY</span>
+                                        <span class="text-sm font-black font-mono text-brandText" id="metric-efficiency">82.5%</span>
+                                    </div>
+                                    <div class="bg-brandSecondary p-3 rounded-xl border border-brandBorder">
+                                        <span class="text-[10px] font-mono text-brandMuted block">CARBON CONVERSION CO2</span>
+                                        <span class="text-sm font-black font-mono text-brandAccent" id="metric-carbon">340 kg/hr</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">04 // LEAD DESIGN EXECUTION</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Delivering 4 Key Design Blueprints</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+                            <div class="p-4 bg-brandSecondary rounded-xl border border-brandBorder text-xs">
+                                <h4 class="font-headline font-bold text-brandText text-sm mb-1">1. Onboarding with AR Integration</h4>
+                                <p class="leading-relaxed">Designed dynamic setup steps, pairing visual cues with physical checks to help technicians place outdoor equipment with greater accuracy.</p>
+                            </div>
+                            <div class="p-4 bg-brandSecondary rounded-xl border border-brandBorder text-xs">
+                                <h4 class="font-headline font-bold text-brandText text-sm mb-1">2. Admin Dashboard Controls</h4>
+                                <p class="leading-relaxed">Created a unified dashboard giving management simple, centralized access to log files, system syncs, and client data.</p>
+                            </div>
+                            <div class="p-4 bg-brandSecondary rounded-xl border border-brandBorder text-xs">
+                                <h4 class="font-headline font-bold text-brandText text-sm mb-1">3. Fingertip Real-Time App</h4>
+                                <p class="leading-relaxed">Developed a clean client-side app that delivers key temperature and efficiency metrics to operators on the go.</p>
+                            </div>
+                            <div class="p-4 bg-brandSecondary rounded-xl border border-brandBorder text-xs">
+                                <h4 class="font-headline font-bold text-brandText text-sm mb-1">4. Strategic Strategy Leadership</h4>
+                                <p class="leading-relaxed">Collaborated closely with CEO, CTO, and development teams, ensuring our design choices aligned with business goals.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">05 // PROFESSIONAL LEARNINGS</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Trust Over Absolute Automation</h3>
+                        <p class="text-sm">
+                            I learned that experts don't want absolute automation that hides critical details. They want clear control over the system's rules and straightforward, visible feedback on what the system is doing.
+                        </p>
+                    </section>
+                </div>
+            `,
+            autoremov: `
+                <div class="lg:col-span-4 sticky top-12 space-y-8 border-b lg:border-b-0 lg:border-r border-brandBorder pb-8 lg:pb-0 lg:pr-8">
+                    <div>
+                        <span class="text-[10px] font-mono text-brandAccent block uppercase font-bold">CASE PROFILE 02 // CREATOR AI TECH</span>
+                        <h1 class="font-headline font-bold text-3xl text-brandText mt-1">Autoremov</h1>
+                        <p class="text-brandMuted text-sm mt-2">Bulk High-Velocity Background Removal Dashboard &amp; Landing Page Redesign.</p>
+                    </div>
+                    <div class="space-y-4 pt-4 border-t border-brandBorder">
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">ROLE &amp; POSITION</span>
+                            <span class="text-xs font-semibold text-brandText">Freelance UX Architect &amp; Researcher</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">TIMELINE</span>
+                            <span class="text-xs font-semibold text-brandText">May 2020 — Present ( Noida / Remote )</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">BENCHMARKED COMPETITORS</span>
+                            <span class="text-xs font-semibold text-brandText">Remove.bg, PhotoRoom, Canva AI, Clipdrop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 space-y-12 text-brandMuted leading-relaxed">
+                    <section class="space-y-4">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">02 // PROBLEM BRIEF</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Outdated Static Interface Restricting SaaS Conversions</h3>
+                        <p class="text-sm">
+                            Autoremov's background removal tool is powered by advanced neural networks, but its interface relied on static, generic layouts. Users struggled to find the batch processing tool, which made the platform feel less capable than modern competitors.
+                        </p>
+                    </section>
+
+                    <!-- Interactive Before/After Image Comparison Slider -->
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">03 // FUNCTIONAL LANDING DEMO</span>
+                        <h3 class="font-headline font-bold text-xl text-brandText">Before/After Separation Slider</h3>
+                        <p class="text-sm">
+                            I designed a clear before-and-after image slider on the homepage to instantly demonstrate the tool's effectiveness. Try dragging the orange handle below to see the comparison:
+                        </p>
+                        
+                        <div class="slider-container relative w-full h-[320px] rounded-2xl bg-brandSurface border border-brandBorder overflow-hidden" id="sandbox-slider-box">
+                            <!-- Background Removed (After Image Simulation) -->
+                            <div class="absolute inset-0 bg-brandSecondary flex flex-col items-center justify-center text-center p-4">
+                                <div class="w-32 h-32 bg-brandAccent/10 rounded-full flex items-center justify-center text-3xl font-bold border border-brandAccent/20">📦</div>
+                                <span class="text-xs font-mono text-brandAccent font-bold uppercase mt-2">Isolated Product Layer</span>
+                                <span class="text-[10px] text-brandMuted mt-1">Grid/Background Completely Cleared</span>
+                            </div>
+
+                            <!-- Before Image (Original Simulation with Background) -->
+                            <div class="absolute inset-0 bg-brandMuted/15 flex flex-col items-center justify-center text-center p-4" id="before-img-layer" style="width: 50%; border-right: 1px solid #E06A3B; overflow: hidden; white-space: nowrap;">
+                                <div class="w-full h-full flex flex-col items-center justify-center">
+                                    <div class="w-32 h-32 bg-slate-400 rounded-full flex items-center justify-center text-3xl font-bold opacity-75">📦🏠🪑</div>
+                                    <span class="text-xs font-mono text-brandText font-bold uppercase mt-2">Unprocessed Asset</span>
+                                    <span class="text-[10px] text-brandMuted mt-1">Messy Ambient Studio Background</span>
+                                </div>
+                            </div>
+
+                            <!-- Handle -->
+                            <div class="before-after-handle" id="slider-split-handle" style="left: 50%;">
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-brandAccent border border-brandSecondary text-brandSecondary flex items-center justify-center text-xs font-bold font-mono">↔</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">04 // KEY CONTRIBUTIONS</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Redesign Strategy Highlights</h3>
+                        <ul class="space-y-3 text-sm text-brandMuted list-disc pl-5">
+                            <li><strong>Competitor Analysis Heuristics:</strong> Identified key user friction points on top-tier competitor tools to guide our layout priorities.</li>
+                            <li><strong>Zero-Latency Discovery Path:</strong> Built the before-and-after slider to demonstrate the tool's performance immediately upon user arrival.</li>
+                            <li><strong>Batch Console Architecture:</strong> Redesigned bulk image queues to give creators and agencies straightforward tools for processing multiple assets at once.</li>
+                        </ul>
+                    </section>
+                </div>
+            `,
+            trivira: `
+                <div class="lg:col-span-4 sticky top-12 space-y-8 border-b lg:border-b-0 lg:border-r border-brandBorder pb-8 lg:pb-0 lg:pr-8">
+                    <div>
+                        <span class="text-[10px] font-mono text-brandAccent block uppercase font-bold">CASE PROFILE 03 // COMMERCE DESIGN</span>
+                        <h1 class="font-headline font-bold text-3xl text-brandText mt-1">Trivira Commerce</h1>
+                        <p class="text-brandMuted text-sm mt-2">Physical Label &amp; Digital Commerce Brand Strategy.</p>
+                    </div>
+                    <div class="space-y-4 pt-4 border-t border-brandBorder">
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">ROLE &amp; POSITION</span>
+                            <span class="text-xs font-semibold text-brandText">Freelance UI/UX Designer &amp; Brand Strategist</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">TIMELINE</span>
+                            <span class="text-xs font-semibold text-brandText">May 2020 — Present (Noida / Remote)</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">KEY OUTCOME</span>
+                            <span class="text-xs font-bold text-brandAccentSec uppercase font-mono bg-brandAccentSec/10 px-2 py-1 rounded block mt-1 w-fit">Simplified purchase pathways</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 space-y-12 text-brandMuted leading-relaxed">
+                    <section class="space-y-4">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">02 // PROBLEM STATEMENT</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Fragmented Visuals Diluting Customer Checkout Trust</h3>
+                        <p class="text-sm">
+                            Trivira Global Enterprise needed a cohesive visual identity across physical packaging, print catalogs, and digital checkout pages. Inconsistencies between product labels and online shop grids created friction that impacted customer trust and conversions.
+                        </p>
+                    </section>
+
+                    <!-- Interactive Branding Configurator Sandbox Component -->
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">03 // DESIGN SYSTEM SPECIFICATION</span>
+                        <h3 class="font-headline font-bold text-xl text-brandText">Interactive Brand Packaging Label Configurator</h3>
+                        <p class="text-sm">
+                            I designed a unified design system that translates cleanly across print labels and digital checkout elements. Explore the interface theme selections below to see how the color systems coordinate:
+                        </p>
+                        
+                        <div class="bg-brandSurface border border-brandBorder rounded-2xl p-6 mt-4">
+                            <div class="flex justify-between items-center mb-4 pb-2 border-b border-brandBorder">
+                                <span class="text-xs font-mono font-bold text-brandText uppercase">🎨 Packaging Theme Explorer</span>
+                                <div class="flex space-x-1.5" id="brand-selector-tabs">
+                                    <button onclick="switchBrandConcept('greens', this)" class="px-2.5 py-1 text-[9px] font-mono rounded bg-brandAccent text-brandSecondary font-bold">Daily Greens</button>
+                                    <button onclick="switchBrandConcept('active', this)" class="px-2.5 py-1 text-[9px] font-mono rounded bg-brandSecondary text-brandText border border-brandBorder">Bio-Active</button>
+                                    <button onclick="switchBrandConcept('omega', this)" class="px-2.5 py-1 text-[9px] font-mono rounded bg-brandSecondary text-brandText border border-brandBorder">Omega Gold</button>
+                                </div>
+                            </div>
+
+                            <div class="p-6 rounded-xl border border-brandBorder/60 text-center transition-all duration-300" id="brand-sim-card" style="background-color: #E2F0D9; color: #1E3A1E;">
+                                <span class="text-[10px] font-mono uppercase tracking-widest block font-bold" id="brand-sim-tag">Nutraceutical Range</span>
+                                <h4 class="font-headline font-black text-2xl mt-1" id="brand-sim-title">Daily Greens Blend</h4>
+                                <p class="text-xs opacity-80 mt-2 max-w-sm mx-auto" id="brand-sim-desc">Organic wheatgrass, spirulina extract, and micronutrient calibration systems.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">04 // OUTCOMES MATRIX</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Delivering Brand Consistency</h3>
+                        <ul class="space-y-3 text-sm text-brandMuted list-disc pl-5">
+                            <li><strong>Packaging Visual Systems:</strong> Developed clear guidelines for wellness containers to maintain design consistency.</li>
+                            <li><strong>E-Commerce Optimizations:</strong> Built intuitive shop pathways that make product discovery and checkout simpler for customers.</li>
+                            <li><strong>Marketing Design Library:</strong> Designed reusable print catalogs, post templates, and visual layouts to support marketing campaigns.</li>
+                        </ul>
+                    </section>
+                </div>
+            `,
+            gamified_lms: `
+                <div class="lg:col-span-4 sticky top-12 space-y-8 border-b lg:border-b-0 lg:border-r border-brandBorder pb-8 lg:pb-0 lg:pr-8">
+                    <div>
+                        <span class="text-[10px] font-mono text-brandAccent block uppercase font-bold">CASE PROFILE 04 // CORPORATE LEARNING</span>
+                        <h1 class="font-headline font-bold text-3xl text-brandText mt-1">LMS Platform</h1>
+                        <p class="text-brandMuted text-sm mt-2">Gamification Training Engine for Employee Skill Development.</p>
+                    </div>
+                    <div class="space-y-4 pt-4 border-t border-brandBorder">
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">ROLE &amp; POSITION</span>
+                            <span class="text-xs font-semibold text-brandText">UI/UX Designer (Full Time)</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">TIMELINE</span>
+                            <span class="text-xs font-semibold text-brandText">Sep 2022 — Mar 2023 ( Ahmedabad )</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono text-brandMuted block">KEY OUTCOME METRIC</span>
+                            <span class="text-xs font-bold text-brandAccentSec uppercase font-mono bg-brandAccentSec/10 px-2 py-1 rounded block mt-1 w-fit">Higher corporate course completion rates</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 space-y-12 text-brandMuted leading-relaxed">
+                    <section class="space-y-4">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">02 // THE OPPORTUNITY</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Increasing Engagement in Corporate Training Portals</h3>
+                        <p class="text-sm">
+                            Corporate training is often required for compliance, but static, uninspiring learning portals can lead to low completion rates. Because courses felt disconnected from daily routines, users skipped tasks, creating compliance gaps for global team systems.
+                        </p>
+                    </section>
+
+                    <!-- Interactive Gamified Quest Sandbox Component -->
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">03 // PROTOTYPE TESTING</span>
+                        <h3 class="font-headline font-bold text-xl text-brandText">Interactive Micro-Moment Journey Sandbox</h3>
+                        <p class="text-sm">
+                            We structured the course dashboard with progress checkpoints, turning dry training steps into clear milestones. Try clicking "Simulate Checkpoint" below to watch the animated milestone tracker update:
+                        </p>
+                        
+                        <div class="bg-brandSurface border border-brandBorder rounded-2xl p-6 mt-4">
+                            <div class="flex justify-between items-center mb-4 border-b border-brandBorder/60 pb-2">
+                                <span class="text-xs font-mono font-bold text-brandText uppercase">🏆 Learning Progress Path</span>
+                                <span class="text-xs font-mono font-black text-brandAccent" id="lms-percentage">33% Completed</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="w-full bg-brandSecondary h-3.5 rounded-full overflow-hidden border border-brandBorder">
+                                    <div class="bg-brandAccent h-full transition-all duration-500" id="lms-progress-bar" style="width: 33%;"></div>
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] font-mono text-brandMuted" id="lms-quest-label">Active Quest: Chapter 1 Usability Laws</span>
+                                    <button onclick="advanceLmsSandbox()" class="px-4 py-2 bg-brandText text-brandSecondary hover:bg-brandAccent text-xs font-semibold rounded-lg font-mono">Simulate Checkpoint</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="space-y-4 border-t border-brandBorder pt-8">
+                        <span class="text-[10px] font-mono text-brandAccent uppercase font-bold">04 // OUTCOME ANALYSIS</span>
+                        <h3 class="font-headline font-bold text-2xl text-brandText">Key Platform Outcomes</h3>
+                        <ul class="space-y-3 text-sm text-brandMuted list-disc pl-5">
+                            <li><strong>Clear Progress Indicators:</strong> Created straightforward visual paths showing employees their exact milestones to encourage course completion.</li>
+                            <li><strong>Modular Course Structures:</strong> Designed lesson dashboards to display courses in manageable sections, perfect for busy schedules.</li>
+                            <li><strong>Polished User Interface:</strong> Designed the layout with responsive frameworks, ensuring the platform remains easy to navigate on both desktop and mobile devices.</li>
+                        </ul>
+                    </section>
+                </div>
+            `
+        };
+
+        // Open Case Study Modal
+        function openCaseStudy(caseStudyId) {
+            const overlay = document.getElementById('case-study-overlay');
+            const container = document.getElementById('case-study-content');
+            if (overlay && container && CASE_STUDY_DB[caseStudyId]) {
+                container.innerHTML = CASE_STUDY_DB[caseStudyId];
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                gsap.fromTo(overlay, { opacity: 0 }, { duration: 0.3, opacity: 1, ease: "power2.out", onComplete: () => {
+                    // Activate specific javascript events for sandboxes
+                    initializeCaseStudyInteractions(caseStudyId);
+                }});
+            }
+        }
+
+        // Close Case Study Modal
+        function closeCaseStudy() {
+            const overlay = document.getElementById('case-study-overlay');
+            if (overlay) {
+                gsap.to(overlay, { duration: 0.25, opacity: 0, ease: "power2.in", onComplete: () => {
+                    overlay.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }});
+            }
+        }
+
+        // INIT INTERACTIVE SYSTEMS WITHIN RENDERED CASE STUDIES
+        function initializeCaseStudyInteractions(id) {
+            if (id === 'klimashift') {
+                updateTelemetrySandbox(50);
+            } else if (id === 'autoremov') {
+                initAutoremovSlider();
+            }
+        }
+
+        // KlimaShift Sandbox Controller
+        function updateTelemetrySandbox(val) {
+            const numVal = parseInt(val);
+            const sliderVal = document.getElementById('slider-val');
+            const efficiencyText = document.getElementById('metric-efficiency');
+            const carbonText = document.getElementById('metric-carbon');
+            const calibStatus = document.getElementById('calib-status');
+
+            if (sliderVal && efficiencyText && carbonText && calibStatus) {
+                sliderVal.innerText = `${numVal}% Output`;
+                
+                // Formulas simulating actual operational feedback
+                const calculatedEfficiency = (50 + (numVal * 0.45)).toFixed(1);
+                const calculatedCarbon = Math.round(150 + (numVal * 4.2));
+
+                efficiencyText.innerText = `${calculatedEfficiency}%`;
+                carbonText.innerText = `${calculatedCarbon} kg/hr`;
+
+                if (numVal > 80) {
+                    calibStatus.innerText = "Status: Overloaded Risk";
+                    calibStatus.className = "text-[9px] font-mono bg-brandAccent/15 text-brandAccent px-2 py-0.5 rounded uppercase font-bold";
+                } else if (numVal < 30) {
+                    calibStatus.innerText = "Status: Underperforming";
+                    calibStatus.className = "text-[9px] font-mono bg-amber-600/15 text-amber-600 px-2 py-0.5 rounded uppercase font-bold";
+                } else {
+                    calibStatus.innerText = "Status: Balanced";
+                    calibStatus.className = "text-[9px] font-mono bg-brandAccentSec/15 text-brandAccentSec px-2 py-0.5 rounded uppercase font-bold";
+                }
+            }
+        }
+
+        // Autoremov Before/After Split Drag Controller
+        function initAutoremovSlider() {
+            const container = document.getElementById('sandbox-slider-box');
+            const handle = document.getElementById('slider-split-handle');
+            const layer = document.getElementById('before-img-layer');
+
+            if (container && handle && layer) {
+                let active = false;
+
+                const onDrag = (x) => {
+                    const rect = container.getBoundingClientRect();
+                    let ratio = (x - rect.left) / rect.width;
+                    if (ratio < 0) ratio = 0;
+                    if (ratio > 1) ratio = 1;
+
+                    handle.style.left = `${ratio * 100}%`;
+                    layer.style.width = `${ratio * 100}%`;
+                };
+
+                // Mouse Event Triggers
+                container.addEventListener('mousedown', (e) => {
+                    active = true;
+                    onDrag(e.clientX);
+                });
+                window.addEventListener('mouseup', () => { active = false; });
+                window.addEventListener('mousemove', (e) => {
+                    if (!active) return;
+                    onDrag(e.clientX);
+                });
+
+                // Touch Event Triggers for Mobile Compatibility
+                container.addEventListener('touchstart', (e) => {
+                    active = true;
+                    onDrag(e.touches[0].clientX);
+                });
+                window.addEventListener('touchend', () => { active = false; });
+                window.addEventListener('touchmove', (e) => {
+                    if (!active) return;
+                    onDrag(e.touches[0].clientX);
+                });
+            }
+        }
+
+        // Trivira Theme Configurer Switch
+        function switchBrandConcept(concept, element) {
+            const card = document.getElementById('brand-sim-card');
+            const title = document.getElementById('brand-sim-title');
+            const tag = document.getElementById('brand-sim-tag');
+            const desc = document.getElementById('brand-sim-desc');
+            const tabs = document.getElementById('brand-selector-tabs');
+
+            if (card && title && tag && desc && tabs) {
+                // Reset Active styling
+                tabs.querySelectorAll('button').forEach(btn => {
+                    btn.className = "px-2.5 py-1 text-[9px] font-mono rounded bg-brandSecondary text-brandText border border-brandBorder";
+                });
+                element.className = "px-2.5 py-1 text-[9px] font-mono rounded bg-brandAccent text-brandSecondary font-bold";
+
+                if (concept === 'greens') {
+                    card.style.backgroundColor = '#E2F0D9';
+                    card.style.color = '#1E3A1E';
+                    tag.innerText = "Nutraceutical Range";
+                    title.innerText = "Daily Greens Blend";
+                    desc.innerText = "Organic wheatgrass, spirulina extract, and micronutrient calibration systems.";
+                } else if (concept === 'active') {
+                    card.style.backgroundColor = '#FFF2CC';
+                    card.style.color = '#3C2F00';
+                    tag.innerText = "Active Recovery";
+                    title.innerText = "Bio-Active Multi";
+                    desc.innerText = "Optimized minerals, bio-available co-factors, and premium packaging lines.";
+                } else if (concept === 'omega') {
+                    card.style.backgroundColor = '#FCE4D6';
+                    card.style.color = '#3C1E0A';
+                    tag.innerText = "Essential Lipids";
+                    title.innerText = "Omega Gold Pure";
+                    desc.innerText = "Cold-filtered Norwegian lipid concentrations with a unified brand layout.";
+                }
+            }
+        }
+
+        // Gamified LMS platform progress loop
+        let lmsState = 1;
+        function advanceLmsSandbox() {
+            const bar = document.getElementById('lms-progress-bar');
+            const percentage = document.getElementById('lms-percentage');
+            const label = document.getElementById('lms-quest-label');
+
+            if (bar && percentage && label) {
+                lmsState = (lmsState % 3) + 1;
+
+                if (lmsState === 1) {
+                    bar.style.width = '33%';
+                    percentage.innerText = '33% Completed';
+                    label.innerText = 'Active Quest: Chapter 1 Usability Laws';
+                } else if (lmsState === 2) {
+                    bar.style.width = '66%';
+                    percentage.innerText = '66% Completed';
+                    label.innerText = 'Active Quest: Chapter 2 Spatial Interaction Grids';
+                } else if (lmsState === 3) {
+                    bar.style.width = '100%';
+                    percentage.innerText = '100% Completed! 🏆';
+                    label.innerText = 'Active Quest: All Heuristics Mastered!';
+                    showToast("Chapter Quest completed successfully! +100XP");
+                }
+            }
+        }
+
+        // On document load bootstrap
+        window.onload = function() {
+            drawSketches();
+            
+            // Cursor glow movement coordinates tracking
+            const glow = document.getElementById('cursor-glow');
+            if (glow) {
+                window.addEventListener('mousemove', (e) => {
+                    glow.style.background = `radial-gradient(400px circle at ${e.clientX}px ${e.clientY}px, rgba(224, 106, 59, 0.04), transparent 80%)`;
+                    glow.style.opacity = '1';
+                });
+            }
+        };
+    </script>
+</body>
+</html>
