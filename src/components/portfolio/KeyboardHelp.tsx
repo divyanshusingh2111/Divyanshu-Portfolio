@@ -17,7 +17,6 @@ const SHORTCUTS: Shortcut[] = [
   { keys: ["Shift", "/"], label: "Open quick navigation (alias)", group: "Navigation" },
   { keys: ["Esc"], label: "Close any dialog / modal", group: "Navigation" },
   { keys: ["T"], label: "Cycle theme (light → dark → system)", group: "Theme" },
-  { keys: ["←", "→"], label: "Switch project in case-study modal", group: "Sections" },
   { keys: ["G", "W"], label: "Jump to Work", group: "Jump to" },
   { keys: ["G", "A"], label: "Jump to About", group: "Jump to" },
   { keys: ["G", "P"], label: "Jump to Process", group: "Jump to" },

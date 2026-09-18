@@ -1,11 +1,43 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/portfolio/data";
 import ThemeToggle from "./ThemeToggle";
 
 const SECTION_IDS = NAV_LINKS.map((l) => l.href.replace("#", ""));
+
+/**
+ * Section anchors only exist on the home page — on case-study pages the same
+ * links route back home with the hash appended.
+ */
+function NavAnchor({
+  href,
+  className,
+  children,
+  onClick,
+}: {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
+  const onHome = usePathname() === "/";
+  if (onHome) {
+    return (
+      <a href={href} className={className} onClick={onClick}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={`/${href}`} className={className} onClick={onClick}>
+      {children}
+    </Link>
+  );
+}
 
 export default function Header() {
   const [open, setOpen] = React.useState(false);
@@ -53,7 +85,7 @@ export default function Header() {
         scrolled ? "shadow-[0_8px_24px_-18px_rgba(15,23,42,0.25)]" : ""
       }`}
     >
-      <a href="#top" className="flex items-center gap-2 shrink-0">
+      <NavAnchor href="#top" className="flex items-center gap-2 shrink-0">
         <span className="relative flex size-8 items-center justify-center rounded-full bg-accent-soft">
           <span className="absolute inset-0.5 rounded-full bg-[rgba(224,106,59,0.3)]" />
           <span className="relative font-sans text-[17px]">D</span>
@@ -62,13 +94,13 @@ export default function Header() {
           <span className="text-[13px]">Divyanshu Singh</span>
           <span className="font-mono text-[9px] text-muted">PORTFOLIO</span>
         </span>
-      </a>
+      </NavAnchor>
 
       <nav className="hidden gap-8 font-mono text-[11px] font-bold text-muted md:flex">
         {NAV_LINKS.map((link) => {
           const isActive = activeId === link.href.replace("#", "");
           return (
-            <a
+            <NavAnchor
               key={link.label}
               href={link.href}
               aria-current={isActive ? "true" : undefined}
@@ -77,19 +109,19 @@ export default function Header() {
               }`}
             >
               {link.label}
-            </a>
+            </NavAnchor>
           );
         })}
       </nav>
 
       <div className="flex items-center gap-3">
         <ThemeToggle />
-        <a
+        <NavAnchor
           href="#contact"
           className="btn-magnetic hidden sm:flex shrink-0 items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-xs font-bold text-white"
         >
           Let&apos;s Connect <span aria-hidden>→</span>
-        </a>
+        </NavAnchor>
         <button
           type="button"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -108,7 +140,7 @@ export default function Header() {
             {NAV_LINKS.map((link) => {
               const isActive = activeId === link.href.replace("#", "");
               return (
-                <a
+                <NavAnchor
                   key={link.label}
                   href={link.href}
                   onClick={() => setOpen(false)}
@@ -119,16 +151,16 @@ export default function Header() {
                 >
                   {link.label}
                   {isActive && <span className="size-1.5 rounded-full bg-accent" />}
-                </a>
+                </NavAnchor>
               );
             })}
-            <a
+            <NavAnchor
               href="#contact"
               onClick={() => setOpen(false)}
               className="mt-2 flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-xs font-bold text-white"
             >
               Let&apos;s Connect <span aria-hidden>→</span>
-            </a>
+            </NavAnchor>
           </nav>
         </div>
       )}

@@ -8,8 +8,8 @@ type Params = { params: Promise<{ slug: string }> };
 /**
  * Returns the full project JSON for a given slug. This lets SEO crawlers
  * and share-preview bots read the case-study content without rendering the
- * client-side modal. The sitemap already lists the deep-link URLs
- * (`/#project=<slug>`), and this route gives those links crawlable body
+ * client page. The sitemap already lists the dedicated pages
+ * (`/work/<slug>`), and this route gives those links crawlable body
  * content.
  */
 export async function GET(_req: NextRequest, { params }: Params) {
@@ -59,7 +59,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
       outcomes,
       gallery,
       // Helpful metadata for crawlers + share previews.
-      url: `/#project=${_slug}`,
+      url: `/work/${_slug}`,
       type: "case-study",
       lastModified: new Date().toISOString(),
       readingTimeMinutes: Math.max(

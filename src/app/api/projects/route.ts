@@ -22,7 +22,7 @@ export async function GET() {
     duration: p.duration,
     summary: p.summary,
     outcomes: p.outcomes,
-    url: `/#project=${p.slug}`,
+    url: `/work/${p.slug}`,
     api: `/api/projects/${p.slug}`,
   }));
 

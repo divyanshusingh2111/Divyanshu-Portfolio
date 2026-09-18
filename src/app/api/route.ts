@@ -24,7 +24,7 @@ const ROUTES: RouteDoc[] = [
   {
     path: "/api/projects/[slug]",
     method: "GET",
-    description: "Full case-study JSON for a project (for SEO crawlers + share previews).",
+    description: "Full case-study JSON for a project (mirrors the /work/[slug] pages, for SEO crawlers + share previews).",
     example: "GET /api/projects/klimashift",
   },
   {

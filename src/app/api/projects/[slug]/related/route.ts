@@ -51,7 +51,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
       tags: project.tags,
       thumb: project.thumb,
       year: project.year,
-      url: `/#project=${project.slug}`,
+      url: `/work/${project.slug}`,
       sharedTags,
       relevanceScore: score,
     }));

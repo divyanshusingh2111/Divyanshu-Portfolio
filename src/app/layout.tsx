@@ -126,7 +126,7 @@ export default function RootLayout({
     "@type": "CreativeWork",
     name: p.title,
     description: p.summary,
-    url: `${BASE_URL}/#project=${p.slug}`,
+    url: `${BASE_URL}/work/${p.slug}`,
     dateCreated: `${p.year}-01-01`,
     creator: {
       "@type": "Person",

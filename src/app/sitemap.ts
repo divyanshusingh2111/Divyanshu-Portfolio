@@ -17,9 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Deep-linkable case studies via #project=<slug>.
+  // Dedicated case-study pages.
   const projects: MetadataRoute.Sitemap = PROJECTS.map((p) => ({
-    url: `${baseUrl}/#project=${p.slug}`,
+    url: `${baseUrl}/work/${p.slug}`,
     lastModified: now,
     changeFrequency: "yearly",
     priority: 0.8,

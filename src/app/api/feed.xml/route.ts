@@ -27,7 +27,7 @@ export async function GET() {
   const now = new Date().toUTCString();
 
   const items = PROJECTS.map((p) => {
-    const url = `${BASE_URL}/#project=${p.slug}`;
+    const url = `${BASE_URL}/work/${p.slug}`;
     const pubDate = new Date(`${p.year}-01-01T00:00:00Z`).toUTCString();
     const categories = p.tags
       .map((t) => `      <category>${esc(t)}</category>`)
