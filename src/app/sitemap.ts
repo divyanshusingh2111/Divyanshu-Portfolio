@@ -4,7 +4,7 @@ import { PROJECTS } from "@/lib/portfolio/data";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ??
-    (process.env.NODE_ENV === "production" ? "https://divyanshu-portfolio-sepia.vercel.app" : "http://localhost:3000");
+    (process.env.NODE_ENV === "production" ? "https://divyanshu-portfolio-six.vercel.app" : "http://localhost:3000");
   const now = new Date();
 
   // Home page with all the main sections.

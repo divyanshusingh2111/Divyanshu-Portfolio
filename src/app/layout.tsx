@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_BASE_URL ??
       (process.env.NODE_ENV === "production"
-        ? "https://divyanshu-portfolio-sepia.vercel.app"
+        ? "https://divyanshu-portfolio-six.vercel.app"
         : "http://localhost:3000")
   ),
   title: "Divyanshu Singh — Product Designer",
@@ -92,7 +92,7 @@ export default function RootLayout({
   const BASE_URL =
     process.env.NEXT_PUBLIC_BASE_URL ??
     (process.env.NODE_ENV === "production"
-      ? "https://divyanshu-portfolio-sepia.vercel.app"
+      ? "https://divyanshu-portfolio-six.vercel.app"
       : "http://localhost:3000");
 
   const personLd = {

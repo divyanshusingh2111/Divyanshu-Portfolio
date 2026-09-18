@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 const BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL ??
   (process.env.NODE_ENV === "production"
-    ? "https://divyanshu-portfolio-sepia.vercel.app"
+    ? "https://divyanshu-portfolio-six.vercel.app"
     : "http://localhost:3000");
 
 function esc(s: string): string {
