@@ -45,8 +45,14 @@ Lint: `bun run lint` (ESLint). Types: `bunx tsc --noEmit`.
 
 ## Deploy
 
-The repo ([divyanshusingh2111/Divyanshu-Portfolio](https://github.com/divyanshusingh2111/Divyanshu-Portfolio))
-is connected to Vercel — pushes to the `production` branch deploy automatically
-to <https://divyanshu-portfolio-six.vercel.app>. The project's framework preset
-must be **Next.js** with default build settings (`next build`); other branches
-get preview deployments.
+The Vercel project (`divyanshu-portfolio`, team `gauravkumar260s-projects`)
+deploys from this directory via the Vercel CLI:
+
+```bash
+vercel deploy --prod
+```
+
+Live at <https://divyanshu-portfolio-sepia.vercel.app>. The `production`
+branch of [divyanshusingh2111/Divyanshu-Portfolio](https://github.com/divyanshusingh2111/Divyanshu-Portfolio)
+mirrors the deployed code. To auto-deploy on every push, run
+`vercel git connect` (requires the repo owner to approve the Vercel GitHub app).
