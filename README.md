@@ -56,3 +56,12 @@ I'll port those next, one at a time.
   preview loops, not a real production pattern. Implemented as one-time
   entrance transitions instead (fade/slide on load, subtle float on the stat
   card) so the page doesn't visibly jitter forever.
+
+## Deploy
+
+The repo ([divyanshusingh2111/Divyanshu-Portfolio](https://github.com/divyanshusingh2111/Divyanshu-Portfolio))
+is connected to Vercel — pushes to the `production` branch deploy automatically
+to <https://divyanshu-portfolio-six.vercel.app> (the production branch is set
+in the Vercel dashboard; other branches get preview deployments). Vite is
+auto-detected (npm install + vite build → dist/); client-side routing fallback
+for `/work/*` deep links comes from `vercel.json`.
