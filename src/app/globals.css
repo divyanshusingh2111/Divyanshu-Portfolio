@@ -4,25 +4,24 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* shadcn compatibility tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains);
-  --font-hand: var(--font-caveat);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+  --font-mono: var(--font-space-mono);
+  --font-display: var(--font-clash-display);
+  --font-script: var(--font-caveat);
+  --color-terra: var(--terra);
+  --color-terra-soft: var(--terra-soft);
+  --color-terra-deep: var(--terra-deep);
+  --color-leaf: var(--leaf);
+  --color-leaf-soft: var(--leaf-soft);
+  --color-leaf-deep: var(--leaf-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-night: var(--night);
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -39,38 +38,22 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-surface: var(--surface);
-  --color-panel: var(--panel);
-  --color-bg: var(--background);
-  --color-ink: var(--foreground);
-  --color-card-token: var(--card);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-
-  /* Portfolio design tokens (matching original Figma design) */
-  --color-muted: #5c5f62;
-  --color-faint: #8f949e;
-  --color-accent: #e06a3b;
-  --color-accent-soft: rgba(224, 106, 59, 0.1);
-  --color-good: #10b981;
-  --color-card: #f3f0ea;
-  --color-line: rgba(15, 23, 42, 0.06);
 }
 
 :root {
-  --radius: 0.625rem;
-  /* shadcn tokens mapped to portfolio palette */
+  --radius: 1.25rem;
+  /* Divyanshu Portfolio design tokens */
   --background: #f9f7f3;
   --foreground: #1e2022;
-  --surface: #ffffff;
-  --panel: #1c1f26;
   --card: #ffffff;
   --card-foreground: #1e2022;
   --popover: #ffffff;
   --popover-foreground: #1e2022;
-  --primary: #1e2022;
+  --primary: #e06a3b;
   --primary-foreground: #ffffff;
   --secondary: #f3f0ea;
   --secondary-foreground: #1e2022;
@@ -78,65 +61,104 @@
   --muted-foreground: #5c5f62;
   --accent: #e06a3b;
   --accent-foreground: #ffffff;
-  --destructive: #ef4444;
-  --border: rgba(15, 23, 42, 0.06);
-  --input: rgba(15, 23, 42, 0.08);
+  --destructive: #d9534f;
+  --border: rgba(30, 32, 34, 0.12);
+  --input: rgba(30, 32, 34, 0.12);
   --ring: #e06a3b;
-  --chart-1: #e06a3b;
-  --chart-2: #10b981;
-  --chart-3: #1e2022;
-  --chart-4: #8f949e;
-  --chart-5: #f3f0ea;
-  --sidebar: #f9f7f3;
-  --sidebar-foreground: #1e2022;
-  --sidebar-primary: #1e2022;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f3f0ea;
-  --sidebar-accent-foreground: #1e2022;
-  --sidebar-border: rgba(15, 23, 42, 0.06);
-  --sidebar-ring: #e06a3b;
+  /* Extended palette */
+  --terra: #e06a3b;
+  --terra-soft: #fcf0eb;
+  --terra-deep: #c2410c;
+  /* Leaf deepened from #10b981 (2.37:1 on cream — fails WCAG) to pass
+     3:1 large-text AA while keeping the Figma green character */
+  --leaf: #0b9e6e;
+  --leaf-soft: #e7f6ef;
+  /* AA-safe leaf for small text on light surfaces (5.83:1 on leaf-soft) */
+  --leaf-deep: #0b6b4f;
+  --ink: #1e2022;
+  --ink-soft: #5c5f62;
+  /* Faint ink deepened from #8f949e (2.85:1 on cream — fails WCAG) to 4.78:1 */
+  --ink-faint: #696e78;
+  --night: #0f172a;
+  --cream: #f9f7f3;
+  --cream-deep: #f3f0ea;
 }
 
+/* ------------------------------------------------------------------ */
+/* Dark theme — "Night Studio" (inverts the warm cream design into a   */
+/* deep charcoal studio; terra accent lifts slightly for contrast)    */
+/* ------------------------------------------------------------------ */
 .dark {
-  --background: #16181b;
-  --foreground: #f9f7f3;
-  --surface: #1e2022;
-  --panel: #0f1113;
-  --card: #1e2022;
-  --card-foreground: #f9f7f3;
-  --popover: #1e2022;
-  --popover-foreground: #f9f7f3;
-  --primary: #f9f7f3;
-  --primary-foreground: #1e2022;
-  --secondary: #26292d;
-  --secondary-foreground: #f9f7f3;
-  --muted: #26292d;
-  --muted-foreground: #9ca3af;
-  --accent: #e06a3b;
-  --accent-foreground: #ffffff;
+  --background: #0f1116;
+  --foreground: #f1eee7;
+  --card: #161a21;
+  --card-foreground: #f1eee7;
+  --popover: #161a21;
+  --popover-foreground: #f1eee7;
+  --primary: #e8733f;
+  --primary-foreground: #fff5ef;
+  --secondary: #1c212a;
+  --secondary-foreground: #f1eee7;
+  --muted: #1c212a;
+  --muted-foreground: #a6aab2;
+  --accent: #e8733f;
+  --accent-foreground: #fff5ef;
   --destructive: #f87171;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #e06a3b;
-  --color-bg: #16181b;
-  --color-ink: #f9f7f3;
-  --color-muted: #9ca3af;
-  --color-faint: #6b7280;
-  --color-card: #1e2022;
-  --color-line: rgba(255, 255, 255, 0.08);
-  --color-accent-soft: rgba(224, 106, 59, 0.18);
-  --color-surface: #1e2022;
+  --border: rgba(241, 238, 231, 0.13);
+  --input: rgba(241, 238, 231, 0.15);
+  --ring: #e8733f;
+  --terra: #e8733f;
+  --terra-soft: #2b1b12;
+  --terra-deep: #f5a26f;
+  --leaf: #3ed598;
+  --leaf-soft: #0e2a20;
+  --leaf-deep: #5ee8b0;
+  --ink: #f1eee7;
+  --ink-soft: #aeb2ba;
+  --ink-faint: #787d86;
+  --night: #1e242e;
+  --cream: #0f1116;
+  --cream-deep: #171b22;
 }
 
-/* Dark-mode overrides for the few remaining hardcoded backgrounds that
-   aren't tokenized. Most components now use bg-surface / bg-bg / bg-panel
-   which cascade automatically via the CSS variable overrides above. */
-.dark .bg-\[rgba\(249\,247\,243\,0\.9\)\] {
-  background-color: rgba(22, 24, 27, 0.9);
+/* Smooth cross-fade when switching themes (class added briefly by the toggle) */
+html.theme-fade,
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition:
+    background-color 420ms ease,
+    border-color 420ms ease,
+    color 420ms ease,
+    fill 420ms ease,
+    stroke 420ms ease,
+    box-shadow 420ms ease !important;
 }
-.dark .bg-card\/40 {
-  background-color: rgba(30, 32, 34, 0.4);
-}
+
+/* ------------------------------------------------------------------ */
+/* Case-study tone system as CSS vars (so tints invert cleanly in dark) */
+/* ------------------------------------------------------------------ */
+.tone-accent  { --tone-text: #e06a3b; --tone-soft: #fcede5; --tone-border: rgba(224,106,59,0.28); --tone-on: #ffffff; }
+.tone-blue     { --tone-text: #1a73e8; --tone-soft: #e8f0fe; --tone-border: rgba(26,115,232,0.25); --tone-on: #ffffff; }
+.tone-red      { --tone-text: #e63946; --tone-soft: #fef2f2; --tone-border: rgba(230,57,70,0.22); --tone-on: #ffffff; }
+.tone-green    { --tone-text: #16a34a; --tone-soft: #f0fdf4; --tone-border: rgba(22,163,74,0.25); --tone-on: #ffffff; }
+.tone-yellow   { --tone-text: #b45309; --tone-soft: #fef9c3; --tone-border: rgba(245,158,11,0.3); --tone-on: #ffffff; }
+.tone-purple   { --tone-text: #7c3aed; --tone-soft: #ede7f6; --tone-border: rgba(124,58,237,0.22); --tone-on: #ffffff; }
+.tone-teal     { --tone-text: #0d9488; --tone-soft: #ccfbf1; --tone-border: rgba(13,148,136,0.25); --tone-on: #ffffff; }
+.tone-orange   { --tone-text: #e67e22; --tone-soft: #fbe9e7; --tone-border: rgba(230,126,34,0.25); --tone-on: #ffffff; }
+.tone-cyan     { --tone-text: #0891b2; --tone-soft: #e0f7fa; --tone-border: rgba(8,145,178,0.25); --tone-on: #ffffff; }
+.tone-neutral  { --tone-text: #1e2022; --tone-soft: #f3f0ea; --tone-border: rgba(30,32,34,0.12); --tone-on: #ffffff; }
+
+.dark .tone-accent  { --tone-text: #f0925f; --tone-soft: #2b1b12; --tone-border: rgba(240,146,95,0.32); --tone-on: #0f1116; }
+.dark .tone-blue     { --tone-text: #7baaf7; --tone-soft: #12213a; --tone-border: rgba(123,170,247,0.3); --tone-on: #0f1116; }
+.dark .tone-red      { --tone-text: #f87e89; --tone-soft: #2b1417; --tone-border: rgba(248,126,137,0.3); --tone-on: #0f1116; }
+.dark .tone-green    { --tone-text: #4ade80; --tone-soft: #0c2a1c; --tone-border: rgba(74,222,128,0.3); --tone-on: #0f1116; }
+.dark .tone-yellow   { --tone-text: #fbbf24; --tone-soft: #2a2008; --tone-border: rgba(251,191,36,0.3); --tone-on: #0f1116; }
+.dark .tone-purple   { --tone-text: #a78bfa; --tone-soft: #211735; --tone-border: rgba(167,139,250,0.3); --tone-on: #0f1116; }
+.dark .tone-teal     { --tone-text: #2dd4bf; --tone-soft: #0a2622; --tone-border: rgba(45,212,191,0.3); --tone-on: #0f1116; }
+.dark .tone-orange   { --tone-text: #fb923c; --tone-soft: #2b1a0f; --tone-border: rgba(251,146,60,0.3); --tone-on: #0f1116; }
+.dark .tone-cyan     { --tone-text: #22d3ee; --tone-soft: #0a2229; --tone-border: rgba(34,211,238,0.3); --tone-on: #0f1116; }
+.dark .tone-neutral  { --tone-text: #e8e6e0; --tone-soft: #1c2027; --tone-border: rgba(241,238,231,0.14); --tone-on: #0f1116; }
 
 @layer base {
   * {
@@ -144,329 +166,339 @@
   }
   html {
     scroll-behavior: smooth;
+    /* non-static scroll container — required by framer-motion useScroll({target})
+       offset math (hero parallax, timeline spine, scroll-spy); harmless for
+       fixed-position chrome since only transform/filter create containing blocks */
+    position: relative;
+  }
+  /* anchor targets clear the fixed header */
+  section[id],
+  [id] {
+    scroll-margin-top: 96px;
   }
   body {
     @apply bg-background text-foreground;
-    background-color: var(--color-bg);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    font-family: var(--font-inter), system-ui, sans-serif;
   }
   ::selection {
-    background-color: rgba(224, 106, 59, 0.2);
-    color: var(--color-ink);
+    background: rgba(224, 106, 59, 0.25);
+  }
+  .dark ::selection {
+    background: rgba(232, 115, 63, 0.35);
+    color: #fff5ef;
+  }
+  /* respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    .animate-float-soft {
+      animation: none;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+@layer utilities {
+  .font-display {
+    font-family: var(--font-clash-display), var(--font-inter), sans-serif;
+  }
+  .font-script {
+    font-family: var(--font-caveat), cursive;
+  }
+  .font-mono-x {
+    font-family: var(--font-space-mono), monospace;
+  }
+  .container-portfolio {
+    @apply mx-auto w-full max-w-[1240px] px-6 md:px-10 lg:px-12;
+  }
 }
-::-webkit-scrollbar-track {
+
+/* Custom scrollbar for long lists */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
   background: transparent;
 }
-::-webkit-scrollbar-thumb {
-  background: rgba(15, 23, 42, 0.12);
-  border-radius: 8px;
-  border: 2px solid var(--color-bg);
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #d6d1c8;
+  border-radius: 999px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(224, 106, 59, 0.4);
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #b5afa4;
 }
-
-/* Reusable portfolio utilities */
-.section-label {
-  @apply font-mono text-xs font-bold text-accent;
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #333a45;
 }
-
-.hand-accent {
-  @apply font-hand font-bold text-accent;
+.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #47505e;
 }
-
-/* Marquee animation for tools strip */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 28s linear infinite;
-}
-.marquee-pause:hover .animate-marquee {
-  animation-play-state: paused;
+/* page-level scrollbar in dark */
+.dark body {
+  scrollbar-color: #333a45 transparent;
 }
 
-/* Subtle blink for live status dot */
-@keyframes soft-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.85); }
+/* Dotted hand-drawn arrow draw animation */
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
-.animate-soft-pulse {
-  animation: soft-pulse 1.8s ease-in-out infinite;
-}
-
-/* Floaty bob for hero badge */
-@keyframes floaty {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-.animate-floaty {
-  animation: floaty 4s ease-in-out infinite;
+.draw-arrow-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  pathLength: 1;
 }
 
-/* Underline draw on hover for nav links */
-.nav-underline {
-  position: relative;
+/* Marquee for hero if needed */
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
-.nav-underline::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  height: 2px;
-  width: 0;
-  background: var(--color-accent);
-  transition: width 0.25s ease;
-}
-.nav-underline:hover::after {
-  width: 100%;
+.animate-float-soft {
+  animation: float-soft 5s ease-in-out infinite;
 }
 
-/* Card hover lift */
-.card-lift {
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
-.card-lift:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 40px -18px rgba(15, 23, 42, 0.18);
-}
-
-/* --- Round 2 styling improvements --- */
-
-/* Visible focus ring for keyboard users on any interactive element. */
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-/* Remove default outline only when focus-visible is supported. */
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Skeleton shimmer for async-loading widgets (guestbook, stats). */
-@keyframes skeleton-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--color-card) 0%,
-    rgba(224, 106, 59, 0.08) 50%,
-    var(--color-card) 100%
-  );
-  background-size: 200% 100%;
-  animation: skeleton-shimmer 1.6s ease-in-out infinite;
-}
-
-/* Magnetic-style press feedback for primary CTAs. */
-.btn-magnetic {
-  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
-}
-.btn-magnetic:hover {
-  transform: translateY(-1px) scale(1.015);
-  box-shadow: 0 10px 24px -10px rgba(224, 106, 59, 0.55);
-}
-.btn-magnetic:active {
-  transform: translateY(0) scale(0.99);
-}
-
-/* Subtle dotted divider that can be dropped between sections. */
-.divider-dots {
-  background-image: radial-gradient(circle, var(--color-line) 1px, transparent 1px);
-  background-size: 8px 8px;
-  background-position: center;
-  height: 8px;
-}
-
-/* Refined heading reveal — used by motion, but provides a graceful fallback. */
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.reveal-up {
-  animation: reveal-up 0.5s ease-out both;
-}
-
-/* Tag chip active transition (used by the SelectedWork filter). */
-.tag-chip {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-}
-.tag-chip:hover {
-  transform: translateY(-1px);
-}
-
-/* Link sheen — a diagonal shine that sweeps across on hover. */
-.link-sheen {
-  position: relative;
-  overflow: hidden;
-}
-.link-sheen::before {
+/* Grain texture overlay for hero */
+.grain::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    100deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.35) 50%,
-    transparent 70%
-  );
-  transform: translateX(-120%);
-  transition: transform 0.6s ease;
   pointer-events: none;
-}
-.link-sheen:hover::before {
-  transform: translateX(120%);
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.04'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Print styles — make the contact + resume info print-friendly. */
+/* Kbd hint chip (case-page keyboard navigation) */
+.kbd-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  background: var(--card);
+  color: var(--ink-faint);
+  font-family: var(--font-space-mono), monospace;
+  font-size: 11px;
+  line-height: 1;
+}
+.dark .kbd-chip {
+  background: #1c212a;
+}
+
+/* ------------------------------------------------------------------ */
+/* Studio Notes article typography                                      */
+/* ------------------------------------------------------------------ */
+/* editorial drop cap on the lead paragraph */
+.drop-cap::first-letter {
+  font-family: var(--font-clash-display), var(--font-inter), sans-serif;
+  font-weight: 600;
+  font-size: 3.35em;
+  line-height: 0.82;
+  float: left;
+  padding-right: 0.14em;
+  padding-top: 0.08em;
+  color: var(--terra);
+}
+
+/* inline code chip inside note prose */
+.note-inline-code {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.84em;
+  background: var(--cream-deep);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.08em 0.4em;
+  color: var(--terra-deep);
+  white-space: nowrap;
+}
+.dark .note-inline-code {
+  background: #1c212a;
+}
+
+/* Print — clean long-form output (notes articles + general pages) */
 @media print {
+  @page {
+    margin: 16mm 15mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+  }
+
+  /* site chrome never prints */
   header,
+  footer,
   .no-print {
     display: none !important;
   }
-  body {
-    background: #fff !important;
-    color: #000 !important;
+
+  /* ── Notes articles (.print-note) + case-study pages (.print-case): crisp
+     light output even when the Night Studio theme is active — all design
+     tokens are re-pinned to their light values for the printed page ── */
+  .print-note,
+  .print-case {
+    min-height: 0 !important;
   }
-  section {
-    page-break-inside: avoid;
-    border: none !important;
-    padding: 12px 0 !important;
+  .print-note,
+  .print-note *,
+  .print-case,
+  .print-case * {
+    --background: #ffffff;
+    --foreground: #1e2022;
+    --card: #ffffff;
+    --card-foreground: #1e2022;
+    --popover: #ffffff;
+    --popover-foreground: #1e2022;
+    --primary: #c2410c;
+    --primary-foreground: #ffffff;
+    --secondary: #f3f0ea;
+    --secondary-foreground: #1e2022;
+    --muted: #f3f0ea;
+    --muted-foreground: #44474b;
+    --accent: #c2410c;
+    --accent-foreground: #ffffff;
+    --border: rgba(30, 32, 34, 0.24);
+    --input: rgba(30, 32, 34, 0.24);
+    --ring: #c2410c;
+    --terra: #c2410c;
+    --terra-soft: #fcf0eb;
+    --terra-deep: #c2410c;
+    --leaf: #0b6b4f;
+    --leaf-soft: #e7f6ef;
+    --ink: #1e2022;
+    --ink-soft: #44474b;
+    --ink-faint: #6b7078;
+    --night: #1e2022;
+    --cream: #ffffff;
+    --cream-deep: #f3f0ea;
+    backdrop-filter: none !important;
+    /* in-view reveal animations must not eat unscrolled content */
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
   }
-  a {
-    color: #000 !important;
-    text-decoration: underline;
+
+  /* terminal code blocks flip to a light paper look */
+  .print-note figure .bg-night {
+    background: #ffffff !important;
+    border-color: #d8d5cd !important;
+    box-shadow: none !important;
+  }
+  .print-note figure .text-white\/50 {
+    color: #6b7078 !important;
+  }
+  .print-note figure .border-white\/10 {
+    border-color: #d8d5cd !important;
+  }
+  .print-note pre,
+  .print-note pre code {
+    color: #1e2022 !important;
+  }
+
+  /* craft detail — external links print their target */
+  .print-note a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9px;
+    color: #6b7078;
+    word-break: break-all;
+  }
+
+  /* sensible page breaks */
+  .print-note h1,
+  .print-note h2,
+  .print-note h3,
+  .print-case h1,
+  .print-case h2,
+  .print-case h3 {
+    break-after: avoid;
+  }
+  .print-note figure,
+  .print-case figure {
+    break-inside: avoid;
+  }
+  .print-note img,
+  .print-case img {
+    max-width: 100% !important;
+  }
+
+  /* ── Case-study pages (.print-case): flip dark hero/closing cards to paper,
+     neutralize glassy chips, keep the PAYMENT gradient as solid ink ── */
+  .print-case [data-print-flip] {
+    background: #ffffff !important;
+    color: #1e2022 !important;
+    border: 1px solid rgba(30, 32, 34, 0.16) !important;
+    break-inside: avoid;
+  }
+  .print-case [data-print-flip] .opacity-80,
+  .print-case [data-print-flip] .opacity-75,
+  .print-case [data-print-flip] .opacity-70 {
+    opacity: 1 !important;
+    color: #44474b !important;
+  }
+  .print-case [data-print-chip] {
+    border-color: rgba(30, 32, 34, 0.24) !important;
+    background: #f3f0ea !important;
+  }
+  .print-case [data-print-stat] {
+    border-color: rgba(30, 32, 34, 0.16) !important;
+    background: #f7f5f0 !important;
+    break-inside: avoid;
+  }
+  .print-case [data-print-gradient] {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: #1a73e8 !important;
+    color: #1a73e8 !important;
+  }
+  .print-case .case-content {
+    max-width: 100% !important;
+    padding-right: 0 !important;
+  }
+  .print-case .grain::after {
+    display: none !important;
+  }
+  /* meta tiles + section cards keep their shape, avoid splitting */
+  .print-case .grid {
+    break-inside: auto;
+  }
+  .print-case .rounded-\[12px\],
+  .print-case .rounded-\[14px\],
+  .print-case .rounded-\[16px\],
+  .print-case .rounded-\[18px\] {
+    break-inside: avoid;
+  }
+  /* print the case URL on the first page (provenance header) */
+  .print-case main::before {
+    content: "Case study — divyanshu.design/work";
+    display: block;
+    font: 700 9px/1.4 "Space Mono", monospace;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b7078;
+    border-bottom: 1px solid rgba(30, 32, 34, 0.14);
+    padding-bottom: 6px;
+    margin-bottom: 14px;
   }
 }
 
-/* Respect reduced-motion preferences. */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Soft inner glow used on the hero portrait frame. */
-.portrait-glow::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 0 60px rgba(224, 106, 59, 0.08);
-  pointer-events: none;
-}
-
-/* Tiny badge "pill" used for live status indicators. */
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--color-line);
-  background: #fff;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--color-muted);
-}
-
-/* --- Round 4 styling additions --- */
-
-/* Soft horizontal gradient divider — fades from transparent → line → transparent. */
-.gradient-divider {
-  height: 1px;
-  width: 100%;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    var(--color-line) 20%,
-    var(--color-line) 80%,
-    transparent 100%
-  );
-}
-
-/* Subtle accent-streak underline used on hover for inline links. */
-.accent-streak {
-  background-image: linear-gradient(var(--color-accent), var(--color-accent));
-  background-size: 0 1px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size 0.25s ease;
-}
-.accent-streak:hover {
-  background-size: 100% 1px;
-}
-
-/* Card with a hover "lift + accent border" used by ToolsStack cards. */
-.tool-card {
-  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-}
-.tool-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(224, 106, 59, 0.35);
-  box-shadow: 0 12px 28px -16px rgba(15, 23, 42, 0.2);
-}
-.tool-card:hover .tool-icon-wrap {
-  background-color: var(--color-accent-soft);
-}
-
-/* Numbered marker for FAQ question icon slot. */
-.faq-q-icon {
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.25s ease;
-}
-
-/* Reading-time pill used in modal TOC + meta. */
-.reading-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--color-accent-soft);
-  color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 700;
-}
-
-/* --- Round 11 styling additions --- */
-
-/* Subtle gradient mesh background for the hero section. Uses two soft radial
-   gradients (accent + good) that fade out at the edges. Barely visible in
-   light mode, adds depth without changing the design. */
-.hero-mesh {
-  position: relative;
-}
-.hero-mesh::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 15% 20%, rgba(224, 106, 59, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 85% 80%, rgba(16, 185, 129, 0.04) 0%, transparent 35%);
-  z-index: 0;
-}
-.hero-mesh > * {
-  position: relative;
-  z-index: 1;
-}
+/* recompile-nudge: round 8 print-case flips (data-print-flip/chip/stat/gradient) */

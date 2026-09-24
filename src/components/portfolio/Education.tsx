@@ -1,61 +1,97 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { EDUCATION } from "@/lib/portfolio/data";
-import SectionHeading from "./SectionHeading";
+import { SectionLabel } from "./section-label";
+import { Reveal } from "./reveal";
 
-export default function Education() {
+const EDUCATION = [
+  {
+    degree: "M.Des in UX Design",
+    school: "DIT University",
+    description:
+      "Focusing on advanced interaction architectures, data accessibility systems, and strategic enterprise software design patterns.",
+    badge: "POSTGRADUATE // 2025 – 2027",
+    highlight: true,
+  },
+  {
+    degree: "M.Sc in UX Design & Management",
+    school: "PFH University of Applied Sciences",
+    description:
+      "Enrolled in international postgrad systems. Decoupled after 1 year of study (2023 - 2024) to transition fully into high-impact product leadership at KlimaShift.",
+    badge: "INTERNATIONAL SPEC // GÖTTINGEN, GERMANY",
+    highlight: false,
+  },
+  {
+    degree: "Bachelor of Design (B.Des) in Industrial Design",
+    school: "Uttar Pradesh Institute of Design (UPID), Noida",
+    description:
+      "Specialized in physical ergonomics, systems modeling, and user-centered design—building a core foundation for translating complex physical-to-digital structures.",
+    badge: "UNDERGRADUATE // 2018 – 2022",
+    highlight: false,
+  },
+];
+
+export function Education() {
   return (
-    <section id="education" className="border-t border-line px-6 py-20 md:px-16">
-      <div className="mx-auto flex max-w-[1312px] flex-col gap-10">
-        <SectionHeading
-          id="education"
-          label="● ACADEMIC FOUNDATIONS"
-          title={
-            <>
-              <span className="font-hand font-bold text-accent">Education</span>
-            </>
-          }
-          subtitle={
-            <p className="max-w-[600px] text-xs text-faint">
-              Specialized research workflows crossing human-computer interfaces, industrial
-              design, and predictive systems.
-            </p>
-          }
-        />
+    <section id="resume" className="relative py-20 md:py-28">
+      <div className="container-portfolio">
+        <Reveal>
+          <SectionLabel text="Academic Foundations" className="mb-5" />
+          <h2 className="font-display font-semibold text-ink text-[clamp(2rem,3.8vw,3.2rem)] leading-[1.06] tracking-[-0.01em]">
+            Education
+          </h2>
+          <p className="mt-5 text-[14.5px] md:text-[15.5px] leading-[1.65] text-ink-soft max-w-[560px]">
+            Specialized research workflows crossing human-computer interfaces, industrial design,
+            and predictive systems.
+          </p>
+        </Reveal>
 
-        <div className="relative border-l-2 border-dashed border-line pl-2">
-          <div className="flex flex-col gap-16">
-            {EDUCATION.map((item, i) => (
-              <motion.div
-                key={item.degree}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
+        <div className="relative ml-2 md:ml-3 mt-14 md:mt-16">
+          {/* Spine */}
+          <div
+            aria-hidden="true"
+            className="absolute left-[7px] top-[10px] bottom-[10px] w-px bg-ink/15"
+          />
+
+          <ol className="space-y-14 md:space-y-16">
+            {EDUCATION.map((entry, i) => (
+              <motion.li
+                key={entry.degree}
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="relative flex flex-col gap-2 pl-8"
+                transition={{ duration: 0.65, delay: i * 0.08, ease: [0.21, 0.47, 0.32, 0.98] }}
+                className="relative pl-8 md:pl-12"
               >
                 <span
-                  className={`absolute top-1.5 left-0 size-3 -translate-x-1/2 rounded-full border-2 ${
-                    item.active ? "border-accent bg-surface" : "border-[#bdbdbd] bg-bg"
+                  aria-hidden="true"
+                  className={`absolute left-0 top-[7px] size-[15px] rounded-full border-[3px] ${
+                    entry.highlight ? "bg-terra border-terra/25" : "bg-card border-ink/25"
                   }`}
                 />
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <p className="text-xl font-bold sm:text-2xl">{item.degree}</p>
+                <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-3">
+                  <div className="min-w-0 max-w-[720px]">
+                    <h3 className="font-display font-semibold text-ink text-[19px] md:text-[22px] leading-snug">
+                      {entry.degree}
+                    </h3>
+                    <p className="mt-1.5 text-[14.5px] font-medium text-terra-deep">{entry.school}</p>
+                    <p className="mt-2.5 text-[14px] md:text-[15px] leading-[1.6] text-ink-soft">
+                      {entry.description}
+                    </p>
+                  </div>
                   <span
-                    className={`shrink-0 rounded-full border px-3 py-1 font-mono text-xs font-medium ${
-                      item.active
-                        ? "border-[rgba(224,106,59,0.1)] bg-[rgba(224,106,59,0.18)] text-accent"
-                        : "border-[#bdbdbd] text-faint"
+                    className={`shrink-0 inline-flex items-center rounded-md px-3.5 py-1.5 font-mono-x text-[10px] md:text-[10.5px] tracking-[0.06em] uppercase whitespace-nowrap ${
+                      entry.highlight
+                        ? "bg-[#FFE4D6] text-[#B4370E] dark:bg-[#3A2317] dark:text-[#F5A26F]"
+                        : "bg-card text-ink-soft border border-border"
                     }`}
                   >
-                    {item.tag}
+                    [ {entry.badge} ]
                   </span>
                 </div>
-                <p className="max-w-[760px] leading-relaxed text-faint">{item.description}</p>
-              </motion.div>
+              </motion.li>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>

@@ -1,46 +1,33 @@
-"use client";
-
-import * as React from "react";
-import Header from "@/components/portfolio/Header";
-import Hero from "@/components/portfolio/Hero";
-import SelectedWork from "@/components/portfolio/SelectedWork";
-import AboutMe from "@/components/portfolio/AboutMe";
-import ProcessMethodology from "@/components/portfolio/ProcessMethodology";
-import Timeline from "@/components/portfolio/Timeline";
-import Education from "@/components/portfolio/Education";
-import SkillsMatrix from "@/components/portfolio/SkillsMatrix";
-import ToolsStack from "@/components/portfolio/ToolsStack";
-import FAQ from "@/components/portfolio/FAQ";
-import ContactFooter from "@/components/portfolio/ContactFooter";
-import ScrollProgress from "@/components/portfolio/ScrollProgress";
-import BackToTop from "@/components/portfolio/BackToTop";
-import CommandPalette from "@/components/portfolio/CommandPalette";
-import KeyboardHelp from "@/components/portfolio/KeyboardHelp";
-import SectionIndicator from "@/components/portfolio/SectionIndicator";
+import { Header } from "@/components/portfolio/header";
+import { Hero } from "@/components/portfolio/hero";
+import { SelectedWork } from "@/components/portfolio/selected-work";
+import { About } from "@/components/portfolio/about";
+import { Timeline } from "@/components/portfolio/timeline";
+import { Education } from "@/components/portfolio/education";
+import { Skills } from "@/components/portfolio/skills";
+import { Tools } from "@/components/portfolio/tools";
+import { Contact } from "@/components/portfolio/contact";
+import { Footer } from "@/components/portfolio/footer";
+import { ScrollProgress } from "@/components/portfolio/scroll-progress";
+import { BackToTop } from "@/components/portfolio/back-to-top";
 
 export default function Home() {
   return (
-    <>
-      <ScrollProgress />
-      <CommandPalette />
-      <KeyboardHelp />
-      <SectionIndicator />
-
+    <div className="min-h-screen flex flex-col bg-cream">
       <Header />
-      <main className="flex flex-col">
+      <main className="flex-1">
         <Hero />
         <SelectedWork />
-        <AboutMe />
-        <ProcessMethodology />
+        <About />
         <Timeline />
         <Education />
-        <SkillsMatrix />
-        <ToolsStack />
-        <FAQ />
-        <ContactFooter />
+        <Skills />
+        <Tools />
+        <Contact />
       </main>
-
+      <Footer />
+      <ScrollProgress />
       <BackToTop />
-    </>
+    </div>
   );
 }

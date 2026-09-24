@@ -1,83 +1,72 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Caveat } from "next/font/google";
+import localFont from "next/font/local";
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as SonnerToaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/components/portfolio/theme-provider";
-import {
-  PROJECTS,
-  CONTACT_EMAIL,
-  CONTACT_LINKEDIN,
-  CONTACT_BEHANCE,
-} from "@/lib/portfolio/data";
+import { CommandPalette } from "@/components/portfolio/command-palette";
+import { ShortcutHelp } from "@/components/portfolio/shortcut-help";
 
-const inter = Inter({
+const clashDisplay = localFont({
+  src: [
+    { path: "../fonts/clash-display-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/clash-display-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/clash-display-600.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/clash-display-700.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-clash-display",
+  display: "swap",
+});
+
+const inter = localFont({
+  src: [
+    { path: "../fonts/inter-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/inter-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/inter-600.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/inter-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-inter",
-  subsets: ["latin"],
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const caveat = Caveat({
+const caveat = localFont({
+  src: [
+    { path: "../fonts/caveat-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/caveat-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/caveat-600.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/caveat-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-caveat",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  display: "swap",
+});
+
+const spaceMono = localFont({
+  src: [
+    { path: "../fonts/space-mono-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/space-mono-700.woff2", weight: "700", style: "normal" },
+  ],
+  variable: "--font-space-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL ??
-      (process.env.NODE_ENV === "production"
-        ? "https://divyanshu-portfolio-six.vercel.app"
-        : "http://localhost:3000")
-  ),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "Divyanshu Singh — Product Designer",
   description:
-    "Divyanshu Singh — Product Designer portfolio. UX strategy, product design, design systems and AI-ready experiences.",
+    "Designing meaningful systems that create impact. Product designer specializing in UX strategy, dashboards, data visualization and AI-powered experiences.",
   keywords: [
+    "Divyanshu Singh",
     "Product Designer",
     "UX Designer",
-    "UI Designer",
-    "Design Systems",
-    "AI UX",
-    "Divyanshu Singh",
     "Portfolio",
+    "Design Systems",
+    "Data Visualization",
   ],
   authors: [{ name: "Divyanshu Singh" }],
-  icons: {
-    icon: "/favicon.svg",
-  },
   openGraph: {
     title: "Divyanshu Singh — Product Designer",
     description:
-      "UX strategy, product design, design systems and AI-ready experiences that drive meaningful impact.",
+      "Designing meaningful systems that create impact. Product designer specializing in UX strategy, dashboards and AI-powered experiences.",
     type: "website",
-    images: [
-      {
-        url: "/api/og",
-        width: 1200,
-        height: 630,
-        alt: "Divyanshu Singh — Product Designer",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Divyanshu Singh — Product Designer",
-    description:
-      "UX strategy, product design, design systems and AI-ready experiences.",
-    images: ["/api/og"],
-  },
-  alternates: {
-    types: {
-      "application/rss+xml": "/api/feed.xml",
-    },
   },
 };
 
@@ -86,82 +75,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // JSON-LD structured data for richer search results. Combines a Person
-  // schema (the designer) with CreativeWork entries (the projects). Rendered
-  // as a <script type="application/ld+json"> so crawlers can parse it.
-  const BASE_URL =
-    process.env.NEXT_PUBLIC_BASE_URL ??
-    (process.env.NODE_ENV === "production"
-      ? "https://divyanshu-portfolio-six.vercel.app"
-      : "http://localhost:3000");
-
-  const personLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Divyanshu Singh",
-    jobTitle: "Product Designer",
-    description:
-      "Product Designer specializing in UX strategy, design systems, and AI-ready experiences.",
-    url: BASE_URL,
-    email: `mailto:${CONTACT_EMAIL}`,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Dehradun",
-      addressRegion: "Uttarakhand",
-      addressCountry: "IN",
-    },
-    knowsAbout: [
-      "UX Strategy",
-      "Product Design",
-      "Design Systems",
-      "Data Visualization",
-      "AI/AR Experiences",
-      "Brand Identity",
-    ],
-    sameAs: [CONTACT_LINKEDIN, CONTACT_BEHANCE],
-  };
-
-  const projectsLd = PROJECTS.map((p) => ({
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: p.title,
-    description: p.summary,
-    url: `${BASE_URL}/work/${p.slug}`,
-    dateCreated: `${p.year}-01-01`,
-    creator: {
-      "@type": "Person",
-      name: "Divyanshu Singh",
-    },
-    keywords: p.tags.join(", "),
-  }));
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [personLd, ...projectsLd],
-  };
-
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} ${caveat.variable} antialiased`}
+        className={`${clashDisplay.variable} ${inter.variable} ${caveat.variable} ${spaceMono.variable} antialiased bg-background text-foreground`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="flex min-h-screen flex-col">
-            <div className="flex-1">{children}</div>
-          </div>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          {children}
           <Toaster />
-          <SonnerToaster richColors position="bottom-right" />
+          <CommandPalette />
+          <ShortcutHelp />
         </ThemeProvider>
       </body>
     </html>
