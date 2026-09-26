@@ -41,10 +41,10 @@ import { NOTES } from "@/lib/notes";
 import { getRecents, pushRecent, type RecentEntry } from "@/lib/palette-recents";
 import { toast } from "@/hooks/use-toast";
 
-const EMAIL = "hello@divyanshu.design";
+const EMAIL = "divyanshuv.singh@gmail.com";
 const RESUME_HREF = "/design-assets/divyanshu-singh-resume.pdf";
-const LINKEDIN_URL = "https://www.linkedin.com/";
-const BEHANCE_URL = "https://www.behance.net/";
+const LINKEDIN_URL = "https://www.linkedin.com/in/divyanshu-singh-2308671b2";
+const BEHANCE_URL = "https://www.behance.net/divyanshu2009f";
 
 /**
  * Predictable word-substring filter (replaces cmdk's loose default fuzzy

@@ -8,12 +8,12 @@ import { SectionLabel } from "./section-label";
 import { Reveal } from "./reveal";
 import { ContactForm } from "./contact-form";
 
-const EMAIL = "hello@divyanshu.design";
+const EMAIL = "divyanshuv.singh@gmail.com";
 
 const LINKS: { label: string; href: string; download?: boolean }[] = [
   { label: "EMAIL", href: `mailto:${EMAIL}` },
-  { label: "LINKEDIN", href: "https://www.linkedin.com/" },
-  { label: "BEHANCE", href: "https://www.behance.net/" },
+  { label: "LINKEDIN", href: "https://www.linkedin.com/in/divyanshu-singh-2308671b2" },
+  { label: "BEHANCE", href: "https://www.behance.net/divyanshu2009f" },
   { label: "RESUME DOWNLOAD", href: "/design-assets/divyanshu-singh-resume.pdf", download: true },
 ];
 
