@@ -262,7 +262,6 @@ export const autoremov: CaseStudy = {
             { label: "COST CALCULATOR", text: "Interactive slider: 'How many images per month?' → auto-calculates cheapest option. Removes pricing decision friction." },
           ],
         },
-        { type: "calculator" },
         { type: "subheading", text: "Settings System & About Page" },
         {
           type: "gallery",
