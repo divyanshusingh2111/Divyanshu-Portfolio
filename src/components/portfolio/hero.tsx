@@ -90,7 +90,7 @@ export function Hero() {
             >
               <span className="inline-flex items-center gap-2.5">
                 <span aria-hidden="true" className="inline-block size-[10px] rounded-[2px] bg-terra" />
-                Bharatpur, India
+                Gurugram, India
               </span>
               <span className="inline-flex items-center gap-2.5">
                 <span className="relative flex size-2.5" aria-hidden="true">
